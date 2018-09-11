@@ -1,4 +1,4 @@
-package de.splotycode.bamboo.gui;
+package de.splotycode.bamboo.gui.api;
 
 import de.splotycode.bamboo.core.i18n.I18N;
 
