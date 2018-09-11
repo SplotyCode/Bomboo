@@ -2,6 +2,7 @@ package de.splotycode.bamboo.gui;
 
 import de.splotycode.bamboo.gui.api.BambooWindow;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class WorkspaceSelect extends BambooWindow {
@@ -11,14 +12,20 @@ public class WorkspaceSelect extends BambooWindow {
         setTitle("splash.title");
         setResizable(false);
         setLayout(new GridLayout(1, 2));
-        add();
+        add(getProjects());
+        JButton button = new JButton("Create New");
+        add(button);
         center();
         pack();
         setVisible(true);
     }
 
-    public Panel getProjects() {
-
+    public JPanel getProjects() {
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Test"));
+        panel.add(new JLabel("Test2"));
+        panel.add(new JLabel("Test3"));
+        return panel;
     }
 
 }
