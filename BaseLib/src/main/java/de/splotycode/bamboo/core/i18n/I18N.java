@@ -38,6 +38,7 @@ public class I18N {
             InputStream stream = locale.getLanguageInputStream();
             String string = IOUtils.toString(stream);
             for (String line : string.split("\n")) {
+                if (line.startsWith("#")) continue;
                 String[] split = line.split(": ");
                 map.put(split[0], split[1]);
             }
