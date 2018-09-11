@@ -14,21 +14,21 @@ public class I18N {
 
     @Getter private static I18N instance = new I18N();
 
-    private I18N english = new I18N().setLocale(Locale.ENGLISH);
+    private static I18N english = new I18N().setLocale(Locale.ENGLISH);
 
     private HashMap<String, String> map = new HashMap<>();
 
     public static String get(String key, String... objects) {
         String value = instance.map.get(key);
         if (value == null) {
-            value = instance.english.map.get(key);
+            value = english.map.get(key);
             System.err.println("Failed to find " + key + " in current Locale");
         }
         if (value == null) {
             System.err.println("Failed to find " + key + " in english Locale");
             value = "I18N Error";
         }
-        return String.format(key, (Object[]) objects);
+        return String.format(value, (Object[]) objects);
     }
 
     public I18N setLocale(Locale locale) {

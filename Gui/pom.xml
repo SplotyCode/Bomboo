@@ -10,6 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Gui</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>de.splotycode.bomboo</groupId>
+            <artifactId>BaseLib</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

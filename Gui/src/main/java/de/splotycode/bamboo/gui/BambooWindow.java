@@ -1,9 +1,16 @@
 package de.splotycode.bamboo.gui;
 
+import de.splotycode.bamboo.core.i18n.I18N;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class BambooWindow extends JFrame {
+
+    @Override
+    public void setTitle(String s) {
+        super.setTitle(I18N.get(s));
+    }
 
     public void makeBorderLess() {
         setUndecorated(true);
