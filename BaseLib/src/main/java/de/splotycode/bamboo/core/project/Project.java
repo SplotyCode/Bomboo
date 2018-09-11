@@ -4,14 +4,12 @@ import java.io.File;
 
 public interface Project {
 
-    default File getWorkSpace() {
-        return getBambooFile().getParentFile();
+    default File workSpace() {
+        return bambooFile().getParentFile();
     }
 
-    File getBambooFile();
+    File bambooFile();
 
-    String getName();
-
-
+    String name();
 
 }

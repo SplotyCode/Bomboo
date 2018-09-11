@@ -13,6 +13,7 @@
         <module>BaseLib</module>
         <module>Gui</module>
         <module>Java</module>
+        <module>Html</module>
     </modules>
 
     <build>

@@ -1,1 +1,5 @@
 splash.title: Welcome to Bamboo
+notification.filedeleted.title: Project Corrupted
+notification.filedeleted.message: Project Workspace File was deleted
+notification.noloader.title: No Loader
+notification.noloader.message: No Loader found for Workspace

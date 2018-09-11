@@ -18,4 +18,5 @@ public class JavaProject implements Project {
     public String getName() {
         return null;
     }
+
 }
