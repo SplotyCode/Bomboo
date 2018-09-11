@@ -9,24 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>BaseLib</artifactId>
-
+    <artifactId>Java</artifactId>
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.8</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.19</version>
+            <groupId>de.splotycode.bomboo</groupId>
+            <artifactId>BaseLib</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
+
 
 </project>

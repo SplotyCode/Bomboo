@@ -12,6 +12,7 @@
         <module>Core</module>
         <module>BaseLib</module>
         <module>Gui</module>
+        <module>Java</module>
     </modules>
 
     <build>

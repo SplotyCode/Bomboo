@@ -4,7 +4,11 @@ import java.io.File;
 
 public interface Project {
 
-    File getWorkSpace();
+    default File getWorkSpace() {
+        return getBambooFile().getParentFile();
+    }
+
+    File getBambooFile();
 
     String getName();
 
