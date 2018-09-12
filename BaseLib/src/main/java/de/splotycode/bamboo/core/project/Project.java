@@ -1,15 +1,30 @@
 package de.splotycode.bamboo.core.project;
 
+import de.splotycode.bamboo.core.notification.NotificationManager;
+import lombok.Getter;
+
 import java.io.File;
 
-public interface Project {
+public class Project {
 
-    default File workSpace() {
+    @Getter private SimpleProjectInformation information;
+    @Getter private NotificationManager notifications;
+
+    public Project(SimpleProjectInformation information) {
+        this.information = information;
+        notifications = new NotificationManager();
+    }
+
+    public File workSpace() {
         return bambooFile().getParentFile();
     }
 
-    File bambooFile();
+    public File bambooFile() {
+        return information.getBambooFile();
+    }
 
-    String name();
+    public String name() {
+        return information.getName();
+    }
 
 }

@@ -15,6 +15,7 @@
         <module>Java</module>
         <module>Html</module>
         <module>Boot</module>
+        <module>CSS</module>
     </modules>
 
     <build>

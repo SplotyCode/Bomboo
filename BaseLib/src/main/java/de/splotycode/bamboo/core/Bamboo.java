@@ -1,13 +1,15 @@
 package de.splotycode.bamboo.core;
 
 import de.splotycode.bamboo.core.boot.BootLoader;
-import de.splotycode.bamboo.core.project.WorkSpace;
+import de.splotycode.bamboo.core.project.Project;
+import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.tools.init.InitialisedOnce;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,12 +20,12 @@ public class Bamboo extends InitialisedOnce {
 
     @Getter private static Bamboo instance = new Bamboo();
 
-    private List<WorkSpace> openWorkSpaces = new ArrayList<>();
-    private List<String> allWorkSpaces = new ArrayList<>();
+    @Getter private List<Project> openProjects = new ArrayList<>();
+    @Getter private List<SimpleProjectInformation> allWorkSpaces = new ArrayList<>();
 
-    private File bambooFolder = new File(System.getProperty("user.home"), ".bamboo");
+    @Getter private File bambooFolder = new File(System.getProperty("user.home"), ".bamboo");
 
-    private File workspacesFile = new File(bambooFolder, "workspaces.yml");
+    @Getter private File workspacesFile = new File(bambooFolder, "workspaces.yml");
 
     protected void init() {
         bambooFolder.mkdirs();
@@ -34,10 +36,32 @@ public class Bamboo extends InitialisedOnce {
         }
         loadWorkSpaces();
 
+        lookAndFeel();
         BootLoader.getBootLoader().getShowOpenedProjects().run();
     }
 
-    public void loadWorkSpaces() {
-        allWorkSpaces = YamlConfiguration.loadConfiguration(workspacesFile).getStringList("workspaces");
+    public void lookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    public void loadWorkSpaces() {
+        List<String> files = YamlConfiguration.loadConfiguration(workspacesFile).getStringList("workspaces");
+        for (String filePath : files) {
+            File file = new File(filePath);
+            YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+            allWorkSpaces.add(new SimpleProjectInformation(file, configuration.getString("name")));
+        }
+    }
+
+    public List<File> getProjectFiles() {
+        List<File> projectFiles = new ArrayList<>();
+        for (SimpleProjectInformation information : allWorkSpaces)
+            projectFiles.add(information.getBambooFile());
+        return projectFiles;
+    }
+
 }
