@@ -1,4 +1,6 @@
 splash.title: Welcome to Bamboo
+
+base.select: Select
 #
 # Notifications
 #
