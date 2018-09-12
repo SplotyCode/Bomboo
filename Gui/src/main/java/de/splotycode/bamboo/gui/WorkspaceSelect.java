@@ -2,6 +2,7 @@ package de.splotycode.bamboo.gui;
 
 import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
+import de.splotycode.bamboo.gui.api.BambooButton;
 import de.splotycode.bamboo.gui.api.BambooWindow;
 
 import javax.swing.*;
@@ -15,7 +16,9 @@ public class WorkspaceSelect extends BambooWindow {
         setResizable(false);
         setLayout(new GridLayout(1, 2));
         add(getProjects());
-        JButton button = new JButton("Create New");
+        BambooButton button = new BambooButton("Create New", event -> {
+
+        });
         add(button);
         center();
         pack();

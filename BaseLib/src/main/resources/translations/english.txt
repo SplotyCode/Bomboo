@@ -1,6 +1,14 @@
+#
+# Splash / Welcome Screen
+#
 splash.title: Welcome to Bamboo
 
+#
+# Base
+#
 base.select: Select
+base.nodescription: No Desciption Provided
+
 #
 # Notifications
 #
