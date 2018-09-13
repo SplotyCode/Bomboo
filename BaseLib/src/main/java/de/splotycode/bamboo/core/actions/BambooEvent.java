@@ -1,39 +1,39 @@
 package de.splotycode.bamboo.core.actions;
 
-import de.splotycode.bamboo.core.project.Project;
-import lombok.AllArgsConstructor;
+import de.splotycode.bamboo.core.exceptions.MethodNotSupportedException;
+import de.splotycode.bamboo.core.project.WorkSpace;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.event.ActionEvent;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class BambooEvent extends ActionEvent {
 
-    private Project project;
+    private WorkSpace workSpace;
+    private EventCause cause;
 
     @Override
     protected void consume() {
-        super.consume();
+        throw new MethodNotSupportedException();
     }
 
     @Override
     protected boolean isConsumed() {
-        return super.isConsumed();
+        throw new MethodNotSupportedException();
     }
 
-    public BambooEvent(Object o, int i, String s, Project project) {
+    public BambooEvent(Object o, int i, String s, WorkSpace workSpace, EventCause cause) {
         super(o, i, s);
-        this.project = project;
+        this.workSpace = workSpace;
+        this.cause = cause;
     }
 
-    public BambooEvent(Object o, int i, String s, int i1, Project project) {
+    public BambooEvent(Object o, int i, String s, int i1, WorkSpace workSpace, EventCause cause) {
         super(o, i, s, i1);
-        this.project = project;
-    }
-
-    public BambooEvent(Object o, int i, String s, long l, int i1, Project project) {
-        super(o, i, s, l, i1);
-        this.project = project;
+        this.workSpace = workSpace;
+        this.cause = cause;
     }
 
     public boolean isAlt() {
