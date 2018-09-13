@@ -1,5 +1,7 @@
 package de.splotycode.bamboo.core.actions;
 
+import de.splotycode.bamboo.core.data.DataFactory;
+import de.splotycode.bamboo.core.data.DataKey;
 import de.splotycode.bamboo.core.exceptions.MethodNotSupportedException;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import lombok.Data;
@@ -13,6 +15,30 @@ public class BambooEvent extends ActionEvent {
 
     private WorkSpace workSpace;
     private EventCause cause;
+    private DataFactory dataFactory;
+
+    public FactoryBuilder factoryBuilder() {
+        dataFactory = new DataFactory();
+        return new FactoryBuilder();
+    }
+
+    public FactoryBuilder factoryBuilder(DataFactory dataFactory) {
+        this.dataFactory = dataFactory;
+        return new FactoryBuilder();
+    }
+
+    public class FactoryBuilder {
+
+        public <T> FactoryBuilder addData(DataKey<T> key, T data) {
+            dataFactory.putData(key, data);
+            return this;
+        }
+
+        public BambooEvent build() {
+            return BambooEvent.this;
+        }
+
+    }
 
     @Override
     protected void consume() {
