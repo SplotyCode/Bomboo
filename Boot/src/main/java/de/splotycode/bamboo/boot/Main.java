@@ -7,6 +7,7 @@ import de.splotycode.bamboo.core.i18n.Locale;
 import de.splotycode.bamboo.core.project.LanguageDescriptor;
 import de.splotycode.bamboo.css.CSSDescriptor;
 import de.splotycode.bamboo.gui.WorkspaceSelect;
+import de.splotycode.bamboo.gui.workspace.WorkspaceGui;
 import de.splotycode.bamboo.html.HtmlDescriptor;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Main {
         BootLoader.getBootLoader().setShowOpenedProjects(WorkspaceSelect::new);
         BootLoader.getBootLoader().setGetDescriptors(() -> Arrays.asList(new HtmlDescriptor(), new CSSDescriptor()));
         BootLoader.getBootLoader().setReloadWorkspaces(WorkspaceSelect::reloadWorkspaces);
+        BootLoader.getBootLoader().setGenerateWindow(WorkspaceGui::new);
 
         Bamboo.getInstance().initalize();
     }

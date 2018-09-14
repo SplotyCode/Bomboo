@@ -5,6 +5,7 @@ public enum EventCause {
     TOOLBAR,
     MENU,
     SHORTCURT,
-    WORKSPACE_SELECT_SCREEN
+    WORKSPACE_SELECT_SCREEN,
+    WORKSPACE_CLOSE
 
 }

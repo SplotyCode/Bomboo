@@ -53,8 +53,7 @@ public class Bamboo extends InitialisedOnce {
         List<String> files = YamlConfiguration.loadConfiguration(workspacesFile).getStringList("workspaces");
         for (String filePath : files) {
             File file = new File(filePath);
-            YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
-            allWorkSpaces.add(new SimpleProjectInformation(file, configuration.getString("name")));
+            allWorkSpaces.add(SimpleProjectInformation.load(file));
         }
     }
 

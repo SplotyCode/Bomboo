@@ -12,6 +12,12 @@ workspace.create.filechooser: Workspace Path
 workspace.create.name: Workspace Name
 workspace.create.namenull.title: Invalid Name
 workspace.create.namenull.message: The Name needs to be filled
+workspace.close.title: Exit Bamboo
+workspace.close.message: Are you sure that you want to exit Bamboo?
+workspace.close.exit: Exit
+workspace.close.cancel: Cancel
+workspace.load.alreadyopen.title: Workspace is already open
+workspace.load.alreadyopen.message: The Workspace is already a loaded Workspace
 #
 # Base
 #
@@ -35,3 +41,8 @@ notification.filedeleted.title: Project Corrupted
 notification.filedeleted.message: Project Workspace File was deleted
 notification.noloader.title: No Loader
 notification.noloader.message: No Loader found for Workspace
+
+#
+# MenuBar
+#
+menubar.edit: _Edit

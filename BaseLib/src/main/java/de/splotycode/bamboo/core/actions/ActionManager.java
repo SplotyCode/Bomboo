@@ -27,6 +27,7 @@ public class ActionManager {
     }
 
     public void callAction(BambooEvent event, String internalName) {
+        System.out.println("Calling Action " + internalName);
         getAction(internalName).onAction(event);
     }
 

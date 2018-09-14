@@ -42,6 +42,7 @@ public class CreateWorkSpaceAction extends Action {
             FileUtil.createFile(bambooFile);
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(bambooFile);
             configuration.set("name", name.getText());
+            configuration.set("projects", new ArrayList<String>());
             try {
                 configuration.save(bambooFile);
             } catch (IOException e) {

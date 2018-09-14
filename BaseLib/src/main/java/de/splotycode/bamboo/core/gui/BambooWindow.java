@@ -12,6 +12,10 @@ public class BambooWindow extends JFrame {
         super.setTitle(I18N.get(s));
     }
 
+    public void setRawTitle(String s) {
+        super.setTitle(s);
+    }
+
     public void makeBorderLess() {
         setUndecorated(true);
         setLayout(null);
@@ -22,6 +26,16 @@ public class BambooWindow extends JFrame {
         Dimension dimension = new Dimension(width, height);
         super.setSize(width, height);
         setPreferredSize(dimension);
+    }
+
+    public void fullScreen() {
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+    }
+
+    public void fullSize() {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(dimension.width, dimension.height);
     }
 
     public void center() {
