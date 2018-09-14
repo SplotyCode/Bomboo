@@ -18,4 +18,6 @@ public class BootLoader {
 
     @Getter @Setter private Supplier<List<LanguageDescriptor>> getDescriptors;
 
+    @Getter @Setter private Runnable reloadWorkspaces;
+
 }

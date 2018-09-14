@@ -4,9 +4,11 @@ import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.actions.Action;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
+import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.gui.BambooTextBox;
 import de.splotycode.bamboo.core.gui.DialogHelper;
 import de.splotycode.bamboo.core.gui.FileChooserField;
+import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.util.FileUtil;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 
@@ -45,6 +47,8 @@ public class CreateWorkSpaceAction extends Action {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Bamboo.getInstance().getAllWorkSpaces().add(new SimpleProjectInformation(bambooFile, name.getText()));
+            BootLoader.getBootLoader().getReloadWorkspaces().run();
         }
     }
 
@@ -58,11 +62,8 @@ public class CreateWorkSpaceAction extends Action {
 
     private void registerWorkspace(File file) {
         YamlConfiguration workspaces = YamlConfiguration.loadConfiguration(Bamboo.getInstance().getWorkspacesFile());
-        List<File> allProjectFiles = new ArrayList<>();
-        allProjectFiles.add(file);
-        List<String> allProjectStrings = new ArrayList<>();
-        for (File workspace : allProjectFiles)
-            allProjectStrings.add(workspace.getAbsolutePath());
+        List<String> allProjectStrings = workspaces.getStringList("workspaces");
+        allProjectStrings.add(file.getAbsolutePath());
 
         workspaces.set("workspaces", allProjectStrings);
         try {

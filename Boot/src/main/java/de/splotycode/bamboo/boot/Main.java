@@ -21,6 +21,7 @@ public class Main {
 
         BootLoader.getBootLoader().setShowOpenedProjects(WorkspaceSelect::new);
         BootLoader.getBootLoader().setGetDescriptors(() -> Arrays.asList(new HtmlDescriptor(), new CSSDescriptor()));
+        BootLoader.getBootLoader().setReloadWorkspaces(WorkspaceSelect::reloadWorkspaces);
 
         Bamboo.getInstance().initalize();
     }

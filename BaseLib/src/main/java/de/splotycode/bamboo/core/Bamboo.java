@@ -3,6 +3,7 @@ package de.splotycode.bamboo.core;
 import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.project.Project;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
+import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.tools.init.InitialisedOnce;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 import lombok.AccessLevel;
@@ -20,7 +21,7 @@ public class Bamboo extends InitialisedOnce {
 
     @Getter private static Bamboo instance = new Bamboo();
 
-    @Getter private List<Project> openProjects = new ArrayList<>();
+    @Getter private List<WorkSpace> openProjects = new ArrayList<>();
     @Getter private List<SimpleProjectInformation> allWorkSpaces = new ArrayList<>();
 
     @Getter private File bambooFolder = new File(System.getProperty("user.home"), ".bamboo");

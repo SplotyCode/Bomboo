@@ -75,7 +75,7 @@ public class FileChooserField extends JPanel implements ActionListener {
         Window window = SwingUtilities.windowForComponent(button);
 
         if (fileChooser.showOpenDialog(SwingUtilities.windowForComponent(this)) == JFileChooser.APPROVE_OPTION) {
-            file = fileChooser.getSelectedFile();
+            setFile(fileChooser.getSelectedFile());
             if (!runChecks()) return;
             if (consumer != null) {
                 consumer.accept(file);
@@ -113,5 +113,7 @@ public class FileChooserField extends JPanel implements ActionListener {
     public void setFile(File file) {
         this.file = file;
         field.setText(file == null ? "Not specified" : file.getAbsolutePath());
+        revalidate();
+        repaint();
     }
 }
