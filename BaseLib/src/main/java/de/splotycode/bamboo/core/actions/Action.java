@@ -6,8 +6,6 @@ import javax.swing.*;
 
 public abstract class Action {
 
-    public abstract String getName();
-
     public abstract void onAction(BambooEvent event);
 
     public abstract String internalName();

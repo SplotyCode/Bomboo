@@ -7,6 +7,8 @@ import de.splotycode.bamboo.core.project.WorkSpace;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 @EqualsAndHashCode(callSuper = true)
@@ -16,6 +18,7 @@ public class BambooEvent extends ActionEvent {
     private WorkSpace workSpace;
     private EventCause cause;
     private DataFactory dataFactory;
+    private Window window;
 
     public FactoryBuilder factoryBuilder() {
         dataFactory = new DataFactory();
@@ -54,12 +57,14 @@ public class BambooEvent extends ActionEvent {
         super(o, i, s);
         this.workSpace = workSpace;
         this.cause = cause;
+        window = SwingUtilities.windowForComponent((Component) o);
     }
 
     public BambooEvent(Object o, int i, String s, int i1, WorkSpace workSpace, EventCause cause) {
         super(o, i, s, i1);
         this.workSpace = workSpace;
         this.cause = cause;
+        window = SwingUtilities.windowForComponent((Component) o);
     }
 
     public boolean isAlt() {

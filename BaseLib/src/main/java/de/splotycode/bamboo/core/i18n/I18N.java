@@ -27,6 +27,9 @@ public class I18N {
         if (value == null) {
             System.err.println("Failed to find " + key + " in english Locale");
             value = "I18N Error";
+            try {
+                new Throwable().printStackTrace();
+            } catch (Throwable ex) {}
         }
         return String.format(value, (Object[]) objects);
     }
@@ -38,7 +41,7 @@ public class I18N {
             InputStream stream = locale.getLanguageInputStream();
             String string = IOUtils.toString(stream);
             for (String line : string.split("\n")) {
-                if (line.startsWith("#")) continue;
+                if (line.startsWith("#") || line.isEmpty()) continue;
                 String[] split = line.split(": ");
                 map.put(split[0], split[1]);
             }

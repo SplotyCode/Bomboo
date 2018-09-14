@@ -2,7 +2,24 @@
 # Splash / Welcome Screen
 #
 splash.title: Welcome to Bamboo
+splash.button.new: Create New
 
+#
+#Workspace
+#
+workspace.create.title: Create New Workspace
+workspace.create.filechooser: Workspace Path
+workspace.create.name: Workspace Name
+workspace.create.filenull.title: Invalid Path
+workspace.create.filenull.message: No File Path specified
+workspace.create.nodirectory.title: Invalid Path
+workspace.create.nodirectory.message: The Path needs to be an Directory
+workspace.create.exsits.title: Invalid Path
+workspace.create.exsits.message: The Directory does not Exists
+workspace.create.exsits.title: Invalid Path
+workspace.create.exsits.message: The Directory needs to be empty!
+workspace.create.namenull.title: Invalid Name
+workspace.create.namenull.message: The Name needs to be filled
 #
 # Base
 #

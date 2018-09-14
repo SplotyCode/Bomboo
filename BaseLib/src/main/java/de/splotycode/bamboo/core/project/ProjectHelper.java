@@ -20,7 +20,7 @@ public class ProjectHelper {
 
     @Getter private static ProjectHelper instance = new ProjectHelper();
 
-    public Project load(SimpleProjectInformation information) {
+    /*public Project load(SimpleProjectInformation information) {
         Project project = new Project(information);
 
         if (!information.getBambooFile().exists()) project.getNotifications().push("filedeleted", NotificationType.ERROR);
@@ -63,6 +63,6 @@ public class ProjectHelper {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
+    }*/
 
 }

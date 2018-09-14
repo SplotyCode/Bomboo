@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public enum CommonAction {
 
-    ;
+    CREATE_WORKSPACE("file.workspace.create");
 
     @Getter private final String internalName;
 

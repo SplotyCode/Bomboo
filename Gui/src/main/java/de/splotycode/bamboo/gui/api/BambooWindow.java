@@ -17,6 +17,13 @@ public class BambooWindow extends JFrame {
         setLayout(null);
     }
 
+    @Override
+    public void setSize(int width, int height) {
+        Dimension dimension = new Dimension(width, height);
+        super.setSize(width, height);
+        setPreferredSize(dimension);
+    }
+
     public void center() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - getWidth()) / 2);

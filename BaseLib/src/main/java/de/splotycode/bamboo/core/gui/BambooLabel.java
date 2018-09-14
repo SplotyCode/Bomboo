@@ -1,4 +1,4 @@
-package de.splotycode.bamboo.gui.api;
+package de.splotycode.bamboo.core.gui;
 
 import de.splotycode.bamboo.core.i18n.I18N;
 
@@ -22,7 +22,7 @@ public class BambooLabel extends JLabel {
 
     @Override
     public void setText(String s) {
-        super.setText(I18N.get(s));
+        super.setText(s.isEmpty() ? "" : I18N.get(s));
     }
 
     public void setRawText(String s) {

@@ -1,4 +1,4 @@
-package de.splotycode.bamboo.gui.api;
+package de.splotycode.bamboo.core.gui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
