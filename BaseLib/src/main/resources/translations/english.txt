@@ -25,6 +25,8 @@ workspace.create.namenull.message: The Name needs to be filled
 #
 base.select: Select
 base.nodescription: No Desciption Provided
+base.dialogs.filecreatefail.title: Failed Creating File
+base.dialogs.filecreatefail.message: Filesystem fails to create File "{}"! Error: "{}"
 
 #
 # Notifications

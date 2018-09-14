@@ -17,6 +17,14 @@ public class DialogHelper {
         JOptionPane.showMessageDialog(window, I18N.get(name + ".message"), I18N.get(name + ".title"), type.type);
     }
 
+    public static void showMessageRaw(String title, String message, Type type) {
+        showMessageRaw(null, title, message, type);
+    }
+
+    public static void showMessageRaw(Window window, String title, String message, Type type) {
+        JOptionPane.showMessageDialog(window, message, title, type.type);
+    }
+
     public static Result showInput(String title, JComponent... components) {
         return showInput(null, title, components);
     }

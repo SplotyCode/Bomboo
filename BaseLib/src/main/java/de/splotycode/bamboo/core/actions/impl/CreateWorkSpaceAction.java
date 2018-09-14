@@ -7,6 +7,7 @@ import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.gui.BambooTextBox;
 import de.splotycode.bamboo.core.gui.DialogHelper;
 import de.splotycode.bamboo.core.gui.FileChooserField;
+import de.splotycode.bamboo.core.util.FileUtil;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 
 import java.awt.*;
@@ -27,6 +28,14 @@ public class CreateWorkSpaceAction extends Action {
             registerWorkspace(destination.getFile());
 
             File bambooFile = new File(destination.getFile(), "bamboo.babo");
+            FileUtil.createFile(bambooFile);
+            YamlConfiguration configuration = YamlConfiguration.loadConfiguration(bambooFile);
+            configuration.set("name", name);
+            try {
+                configuration.save(bambooFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
