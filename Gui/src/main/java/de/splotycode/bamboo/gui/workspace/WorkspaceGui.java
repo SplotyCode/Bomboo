@@ -9,6 +9,7 @@ import de.splotycode.bamboo.core.gui.BambooWindow;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.project.WorkspaceWindow;
 
+import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

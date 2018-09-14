@@ -45,4 +45,5 @@ notification.noloader.message: No Loader found for Workspace
 #
 # MenuBar
 #
+menubar.file: _File
 menubar.edit: _Edit

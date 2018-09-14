@@ -1,5 +1,6 @@
 package de.splotycode.bamboo.gui.workspace;
 
+import de.splotycode.bamboo.core.i18n.I18N;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 
 import javax.swing.*;
@@ -23,11 +24,9 @@ public class WorkspaceMenuBar extends JMenuBar {
             ex.printStackTrace();
         }
         for (String menuName : configuration.getKeys(false)) {
-            JMenu menu = new JMenu();
-            menu.setName(menuName);
+            JMenu menu = new JMenu(I18N.get("menubar." + menuName));
             for (String itemName : configuration.getStringList(menuName)) {
-                JMenuItem item = new JMenuItem();
-                item.setName(itemName);
+                JMenuItem item = new JMenuItem(itemName);
                 menu.add(item);
             }
             add(menu);
