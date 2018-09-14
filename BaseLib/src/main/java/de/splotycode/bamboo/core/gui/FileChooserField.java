@@ -8,6 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class FileChooserField extends JPanel implements ActionListener {
@@ -21,16 +25,28 @@ public class FileChooserField extends JPanel implements ActionListener {
     private Consumer<File> consumer;
     private boolean directorys;
 
-    public FileChooserField(String name, boolean directors) {
-        this(name, new File(System.getProperty("user.home")), file -> {}, directors);
+    private Set<Checks> checks = new HashSet<>();
+
+    public enum Checks {
+
+        FOLDER_MUST_EMPTY
+
     }
 
-    public FileChooserField(String name, File file, Consumer<File> consumer, boolean directors) {
+    private static final File USER_HOME = new File(System.getProperty("user.home"));
+
+    public FileChooserField(String name, boolean directors, Checks... checks) {
+        this(name, USER_HOME, file -> {}, directors, checks);
+    }
+
+    public FileChooserField(String name, File file, Consumer<File> consumer, boolean directors, Checks... checks) {
+        this.checks.addAll(Arrays.asList(checks));
         this.directorys = directors;
         this.consumer = consumer;
         this.name = name;
         this.file = file;
         field.setEditable(false);
+        field.setText(file.getAbsolutePath());
         label.setText(name);
         label.setRawText(label.getText() + ":");
         button.setText("...");
@@ -56,11 +72,46 @@ public class FileChooserField extends JPanel implements ActionListener {
             fileChooser.setAcceptAllFileFilterUsed(false);
         }
 
+        Window window = SwingUtilities.windowForComponent(button);
+
         if (fileChooser.showOpenDialog(SwingUtilities.windowForComponent(this)) == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
+            if (!runChecks()) return;
             if (consumer != null) {
                 consumer.accept(file);
             }
+        } else {
+            file = null;
+            DialogHelper.showMessage(window, "base.dialogs.filechooser.filenull", DialogHelper.Type.ERROR);
         }
+    }
+
+    public boolean runChecks() {
+        Window window = SwingUtilities.windowForComponent(button);
+        if (file == null) {
+            DialogHelper.showMessage(window, "base.dialogs.filechooser.filenull", DialogHelper.Type.ERROR);
+            return false;
+        }
+        if (directorys && !file.isDirectory()) {
+            setFile(file);
+            DialogHelper.showMessage(window, "base.dialogs.filechooser.nodirectory", DialogHelper.Type.ERROR);
+            return false;
+        }
+        if (!file.exists()) {
+            setFile(file);
+            DialogHelper.showMessage(window, "base.dialogs.filechooser.exsits", DialogHelper.Type.ERROR);
+            return false;
+        }
+        if (directorys && checks.contains(Checks.FOLDER_MUST_EMPTY) && file.listFiles().length != 0) {
+            setFile(file);
+            DialogHelper.showMessage(window, "base.dialogs.filechooser.empty", DialogHelper.Type.ERROR);
+            return false;
+        }
+        return true;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+        field.setText(file == null ? "Not specified" : file.getAbsolutePath());
     }
 }

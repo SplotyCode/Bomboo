@@ -7,6 +7,8 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.text.MessageFormat;
 import java.util.HashMap;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -31,7 +33,7 @@ public class I18N {
                 new Throwable().printStackTrace();
             } catch (Throwable ex) {}
         }
-        return String.format(value, (Object[]) objects);
+        return MessageFormat.format(value, (Object[]) objects);
     }
 
     public I18N setLocale(Locale locale) {
@@ -39,7 +41,7 @@ public class I18N {
 
         try {
             InputStream stream = locale.getLanguageInputStream();
-            String string = IOUtils.toString(stream);
+            String string = IOUtils.toString(stream, Charset.forName("Utf-8"));
             for (String line : string.split("\n")) {
                 if (line.startsWith("#") || line.isEmpty()) continue;
                 String[] split = line.split(": ");

@@ -20,17 +20,26 @@ public class CreateWorkSpaceAction extends Action {
 
     @Override
     public void onAction(BambooEvent event) {
-        FileChooserField destination = new FileChooserField("workspace.create.filechooser", true);
+        FileChooserField destination = new FileChooserField("workspace.create.filechooser", true, FileChooserField.Checks.FOLDER_MUST_EMPTY);
         BambooTextBox name = new BambooTextBox("workspace.create.name");
-        DialogHelper.Result result = DialogHelper.showInput(event.getWindow(), "workspace.create.title", name, destination);
+
+        DialogHelper.Result result;
+        while (true) {
+            result = DialogHelper.showInput(event.getWindow(), "workspace.create.title", name, destination);
+            if (result == DialogHelper.Result.YES) {
+                if (destination.getFile() == null || !destination.runChecks() || !checkName(name, event.getWindow()))
+                    continue;
+            }
+            break;
+        }
         if (result == DialogHelper.Result.YES) {
-            if (!checkFile(destination, event.getWindow()) || !checkName(name, event.getWindow())) return;
-            registerWorkspace(destination.getFile());
 
             File bambooFile = new File(destination.getFile(), "bamboo.babo");
+            registerWorkspace(bambooFile);
+
             FileUtil.createFile(bambooFile);
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(bambooFile);
-            configuration.set("name", name);
+            configuration.set("name", name.getText());
             try {
                 configuration.save(bambooFile);
             } catch (IOException e) {
@@ -42,26 +51,6 @@ public class CreateWorkSpaceAction extends Action {
     private boolean checkName(BambooTextBox name, Window window) {
         if (name.getText().isEmpty()) {
             DialogHelper.showMessage(window, "workspace.create.namenull", DialogHelper.Type.ERROR);
-            return false;
-        }
-        return true;
-    }
-
-    private boolean checkFile(FileChooserField destination, Window window) {
-        if (destination.getFile() == null) {
-            DialogHelper.showMessage(window, "workspace.create.filenull", DialogHelper.Type.ERROR);
-            return false;
-        }
-        if (!destination.getFile().isDirectory()) {
-            DialogHelper.showMessage(window, "workspace.create.nodirectory", DialogHelper.Type.ERROR);
-            return false;
-        }
-        if (!destination.getFile().exists()) {
-            DialogHelper.showMessage(window, "workspace.create.exsits", DialogHelper.Type.ERROR);
-            return false;
-        }
-        if (destination.getFile().listFiles().length == 0) {
-            DialogHelper.showMessage(window, "workspace.create.notempty", DialogHelper.Type.ERROR);
             return false;
         }
         return true;

@@ -10,14 +10,6 @@ splash.button.new: Create New
 workspace.create.title: Create New Workspace
 workspace.create.filechooser: Workspace Path
 workspace.create.name: Workspace Name
-workspace.create.filenull.title: Invalid Path
-workspace.create.filenull.message: No File Path specified
-workspace.create.nodirectory.title: Invalid Path
-workspace.create.nodirectory.message: The Path needs to be an Directory
-workspace.create.exsits.title: Invalid Path
-workspace.create.exsits.message: The Directory does not Exists
-workspace.create.exsits.title: Invalid Path
-workspace.create.exsits.message: The Directory needs to be empty!
 workspace.create.namenull.title: Invalid Name
 workspace.create.namenull.message: The Name needs to be filled
 #
@@ -26,7 +18,15 @@ workspace.create.namenull.message: The Name needs to be filled
 base.select: Select
 base.nodescription: No Desciption Provided
 base.dialogs.filecreatefail.title: Failed Creating File
-base.dialogs.filecreatefail.message: Filesystem fails to create File "{}"! Error: "{}"
+base.dialogs.filecreatefail.message: Filesystem fails to create File "{0}"! Error: "{1}"
+base.dialogs.filechooser.filenull.title: Invalid Path
+base.dialogs.filechooser.filenull.message: No File Path specified
+base.dialogs.filechooser.nodirectory.title: Invalid Path
+base.dialogs.filechooser.nodirectory.message: The Path needs to be an Directory
+base.dialogs.filechooser.exsits.title: Invalid Path
+base.dialogs.filechooser.exsits.message: The Directory does not Exists
+base.dialogs.filechooser.empty.title: Invalid Path
+base.dialogs.filechooser.empty.message: The Directory needs to be empty!
 
 #
 # Notifications

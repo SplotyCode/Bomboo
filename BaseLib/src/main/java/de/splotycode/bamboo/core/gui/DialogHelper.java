@@ -14,7 +14,13 @@ public class DialogHelper {
     }
 
     public static void showMessage(Window window, String name, Type type) {
-        JOptionPane.showMessageDialog(window, I18N.get(name + ".message"), I18N.get(name + ".title"), type.type);
+        JTextArea msg = new JTextArea(I18N.get(name + ".message"));
+        msg.setLineWrap(true);
+        msg.setColumns(30);
+        msg.setEditable(false);
+        msg.setWrapStyleWord(true);
+
+        JOptionPane.showMessageDialog(window, new JScrollPane(msg), I18N.get(name + ".title"), type.type);
     }
 
     public static void showMessageRaw(String title, String message, Type type) {
@@ -22,7 +28,12 @@ public class DialogHelper {
     }
 
     public static void showMessageRaw(Window window, String title, String message, Type type) {
-        JOptionPane.showMessageDialog(window, message, title, type.type);
+        JTextArea msg = new JTextArea(message);
+        msg.setLineWrap(true);
+        msg.setColumns(30);
+        msg.setEditable(false);
+        msg.setWrapStyleWord(true);
+        JOptionPane.showMessageDialog(window, new JScrollPane(msg), title, type.type);
     }
 
     public static Result showInput(String title, JComponent... components) {
