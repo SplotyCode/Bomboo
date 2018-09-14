@@ -1,15 +1,12 @@
 package de.splotycode.bamboo.gui;
 
 import de.splotycode.bamboo.core.Bamboo;
-import de.splotycode.bamboo.core.actions.ActionManager;
-import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.actions.EventCause;
 import de.splotycode.bamboo.core.gui.BambooActionButton;
 import de.splotycode.bamboo.core.gui.BambooHtmlLabel;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
-import de.splotycode.bamboo.core.gui.BambooButton;
-import de.splotycode.bamboo.gui.api.BambooWindow;
+import de.splotycode.bamboo.core.gui.BambooWindow;
 
 import javax.swing.*;
 import java.awt.*;
