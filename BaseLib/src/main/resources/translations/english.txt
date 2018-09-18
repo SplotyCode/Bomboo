@@ -45,5 +45,13 @@ notification.noloader.message: No Loader found for Workspace
 #
 # MenuBar
 #
-menubar.file: _File
-menubar.edit: _Edit
+menubar.file: File
+menubar.edit: Edit
+
+#
+# Actions
+#
+actions.file.workspace.create.name: Create Workspace
+actions.file.workspace.create.description: Create a new Workspace
+actions.file.exit.name: Exit
+actions.file.exit.description: Exit Bamboo

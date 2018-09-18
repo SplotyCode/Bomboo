@@ -1,10 +1,15 @@
 package de.splotycode.bamboo.gui.workspace;
 
+import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.ActionManager;
+import de.splotycode.bamboo.core.actions.EventCause;
 import de.splotycode.bamboo.core.i18n.I18N;
+import de.splotycode.bamboo.core.project.WorkSpace;
+import de.splotycode.bamboo.core.util.ActionUtils;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +17,10 @@ import java.io.InputStreamReader;
 
 public class WorkspaceMenuBar extends JMenuBar {
 
-    public WorkspaceMenuBar() {
+    private WorkSpace workSpace;
+
+    public WorkspaceMenuBar(WorkSpace workSpace) {
+        this.workSpace = workSpace;
         YamlConfiguration configuration = new YamlConfiguration();
         try {
             InputStream is = WorkspaceMenuBar.class.getResourceAsStream("/menubar.yml");
@@ -26,7 +34,11 @@ public class WorkspaceMenuBar extends JMenuBar {
         for (String menuName : configuration.getKeys(false)) {
             JMenu menu = new JMenu(I18N.get("menubar." + menuName));
             for (String itemName : configuration.getStringList(menuName)) {
-                JMenuItem item = new JMenuItem(itemName);
+                Action action = ActionManager.getInstance().getAction(itemName);
+                System.out.println(action.getDisplayName());
+                JMenuItem item = new JMenuItem(action.getDisplayName());
+                item.setToolTipText(action.getDescription());
+                item.addActionListener(ActionUtils.generateListener(action.internalName(), EventCause.MENU, workSpace));
                 menu.add(item);
             }
             add(menu);

@@ -20,6 +20,10 @@ public class I18N {
 
     private HashMap<String, String> map = new HashMap<>();
 
+    public static boolean contains(String key) {
+        return instance.map.containsKey(key) || english.map.containsKey(key);
+    }
+
     public static String get(String key, String... objects) {
         String value = instance.map.get(key);
         if (value == null) {

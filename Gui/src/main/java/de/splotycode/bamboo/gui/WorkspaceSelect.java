@@ -35,7 +35,7 @@ public class WorkspaceSelect extends BambooWindow {
         JPanel right = new JPanel();
         right.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        right.add(new BambooActionButton("splash.button.new", CommonAction.CREATE_WORKSPACE, EventCause.WORKSPACE_SELECT_SCREEN), gbc);
+        right.add(new BambooActionButton("splash.button.new", CommonAction.CREATE_WORKSPACE, EventCause.WORKSPACE_SELECT_SCREEN, null), gbc);
         add(right);
         center();
         pack();

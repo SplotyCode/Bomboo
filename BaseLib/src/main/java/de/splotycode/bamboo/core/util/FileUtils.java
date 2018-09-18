@@ -6,7 +6,7 @@ import de.splotycode.bamboo.core.i18n.I18N;
 import java.io.File;
 import java.io.IOException;
 
-public final class FileUtil {
+public final class FileUtils {
 
     public static void createFile(File file) {
         try {

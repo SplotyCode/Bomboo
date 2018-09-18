@@ -9,7 +9,7 @@ import de.splotycode.bamboo.core.gui.BambooTextBox;
 import de.splotycode.bamboo.core.gui.DialogHelper;
 import de.splotycode.bamboo.core.gui.FileChooserField;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
-import de.splotycode.bamboo.core.util.FileUtil;
+import de.splotycode.bamboo.core.util.FileUtils;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 
 import java.awt.*;
@@ -39,7 +39,7 @@ public class CreateWorkSpaceAction extends Action {
             File bambooFile = new File(destination.getFile(), "bamboo.babo");
             registerWorkspace(bambooFile);
 
-            FileUtil.createFile(bambooFile);
+            FileUtils.createFile(bambooFile);
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(bambooFile);
             configuration.set("name", name.getText());
             configuration.set("projects", new ArrayList<String>());

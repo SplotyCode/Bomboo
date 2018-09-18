@@ -15,12 +15,13 @@ import java.awt.event.WindowEvent;
 
 public class WorkspaceGui extends BambooWindow implements WorkspaceWindow {
 
-    private WorkspaceMenuBar menuBar = new WorkspaceMenuBar();
+    private WorkspaceMenuBar menuBar;
 
     private WorkSpace workSpace;
 
     public WorkspaceGui(WorkSpace workSpace) {
         this.workSpace = workSpace;
+        menuBar = new WorkspaceMenuBar(workSpace);
         fullSize();
         addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {

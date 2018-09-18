@@ -18,8 +18,12 @@ public abstract class Action {
         return false;
     }
 
+    public String getDisplayName() {
+        return I18N.get("actions." + internalName() + ".name");
+    }
+
     public String getDescription() {
-        return I18N.get("base.nodescription");
+        return I18N.contains("actions." + internalName() + ".description") ? I18N.get("actions." + internalName() + ".description") : I18N.get("base.nodescription");
     }
 
     public Icon getIcon() {
