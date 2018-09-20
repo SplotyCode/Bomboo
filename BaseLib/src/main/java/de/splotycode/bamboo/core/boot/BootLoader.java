@@ -1,5 +1,6 @@
 package de.splotycode.bamboo.core.boot;
 
+import de.splotycode.bamboo.core.project.Explorer;
 import de.splotycode.bamboo.core.project.LanguageDescriptor;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.project.WorkspaceWindow;
@@ -24,5 +25,6 @@ public class BootLoader {
     @Getter @Setter private Runnable reloadWorkspaces;
 
     @Getter @Setter private Function<WorkSpace, WorkspaceWindow> generateWindow;
+    @Getter @Setter private Function<WorkSpace, Explorer> generateExplorer;
 
 }

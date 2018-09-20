@@ -15,11 +15,13 @@ public class WorkSpace {
     @Getter private Set<Project> projects = new HashSet<>();
 
     @Getter private WorkspaceWindow window;
+    @Getter private Explorer explorer;
 
     public WorkSpace(SimpleProjectInformation information) {
         this.information = information;
         notifications = new NotificationManager();
         window = BootLoader.getBootLoader().getGenerateWindow().apply(this);
+        explorer = BootLoader.getBootLoader().getGenerateExplorer().apply(this);
     }
 
 }
