@@ -1,3 +1,4 @@
 file:
 - "file.workspace.create"
+- "file.workspace.close"
 - "file.exit"

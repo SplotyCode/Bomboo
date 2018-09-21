@@ -17,6 +17,6 @@ public class CloseWorkspaceAction extends Action {
 
     @Override
     public String internalName() {
-        return "file.close";
+        return "file.workspace.close";
     }
 }

@@ -53,6 +53,8 @@ menubar.edit: Edit
 #
 actions.file.workspace.create.name: Create Workspace
 actions.file.workspace.create.description: Create a new Workspace
+actions.file.workspace.close.name: Close Workspace
+actions.file.workspace.close.description: Close current Workspace
 actions.file.exit.name: Exit
 actions.file.exit.description: Exit Bamboo
 actions.explorer.createfolder.name: Create Folder
