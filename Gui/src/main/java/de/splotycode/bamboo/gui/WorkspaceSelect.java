@@ -21,6 +21,7 @@ public class WorkspaceSelect extends BambooWindow {
     private static JPanel workspaces = new JPanel();
 
     public WorkspaceSelect() {
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
                 ActionManager.getInstance().callAction(new BambooEvent(e.getSource(), e.getID(), null, null, EventCause.WORKSPACE_SELECT_SCREEN), CommonAction.EXIT);

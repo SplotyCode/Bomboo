@@ -9,6 +9,7 @@ import de.splotycode.bamboo.core.gui.BambooWindow;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.project.WorkspaceWindow;
 
+import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -22,6 +23,7 @@ public class WorkspaceGui extends BambooWindow implements WorkspaceWindow {
         this.workSpace = workSpace;
         menuBar = new WorkspaceMenuBar(workSpace);
         fullSize();
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
                 Bamboo.getInstance().getOpenProjects().remove(workSpace);
@@ -33,5 +35,10 @@ public class WorkspaceGui extends BambooWindow implements WorkspaceWindow {
         setJMenuBar(menuBar);
         pack();
         setVisible(true);
+    }
+
+    @Override
+    public void add(JComponent component) {
+        super.add(component);
     }
 }
