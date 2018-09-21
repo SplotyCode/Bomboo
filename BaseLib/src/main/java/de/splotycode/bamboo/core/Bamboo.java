@@ -1,10 +1,9 @@
 package de.splotycode.bamboo.core;
 
 import de.splotycode.bamboo.core.boot.BootLoader;
-import de.splotycode.bamboo.core.project.Project;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.project.WorkSpace;
-import de.splotycode.bamboo.core.tools.init.InitialisedOnce;
+import de.splotycode.bamboo.core.util.init.InitialisedOnce;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 import lombok.AccessLevel;
 import lombok.Getter;
