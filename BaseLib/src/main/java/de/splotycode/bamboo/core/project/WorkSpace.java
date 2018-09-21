@@ -33,4 +33,8 @@ public class WorkSpace {
         explorer.open(information.getBambooFile().getParentFile());
     }
 
+    public void close() {
+        explorer.saveExpanded();
+    }
+
 }

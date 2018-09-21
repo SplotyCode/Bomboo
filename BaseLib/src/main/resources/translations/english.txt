@@ -57,3 +57,15 @@ actions.file.exit.name: Exit
 actions.file.exit.description: Exit Bamboo
 actions.explorer.createfolder.name: Create Folder
 actions.explorer.createfolder.description: Create A Folder
+actions.explorer.createfolder.wrongformat.title: Wrong Format
+actions.explorer.createfolder.wrongformat.message: Wrong Format: Illegal Character
+actions.explorer.createfolder.dialog.title: Specify Folder Name
+actions.explorer.createfolder.dialog.message: Create New Folder
+actions.explorer.deletefile.name: Delete
+actions.explorer.deletefile.description: Delete a File/Folder
+actions.explorer.addfile.name: Add File
+actions.explorer.addfile.description: Create A File
+actions.explorer.addfile.wrongformat.title: Wrong Format
+actions.explorer.addfile.wrongformat.message: Wrong Format: Illegal Character
+actions.explorer.addfile.dialog.title: Specify File Name
+actions.explorer.addfile.dialog.message: Create New File

@@ -8,12 +8,13 @@ public interface Explorer {
     JComponent getComponent();
 
     void open(File file);
-    void selectFile(File file);
     void update();
 
     File selectedFile();
     File baseDirectory();
 
     WorkSpace getWorkSpace();
+
+    void saveExpanded();
 
 }

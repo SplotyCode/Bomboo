@@ -1,54 +1,44 @@
 package de.splotycode.bamboo.gui.workspace;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import de.splotycode.bamboo.core.actions.Action;
 import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.EventCause;
 import de.splotycode.bamboo.core.data.ExplorerDataKeys;
 import de.splotycode.bamboo.core.project.Explorer;
-import de.splotycode.bamboo.core.project.ExplorerHelper;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.util.ActionUtils;
-import de.splotycode.bamboo.core.yaml.YamlConfiguration;
-import de.splotycode.bamboo.core.yaml.YamlFile;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import de.splotycode.bamboo.core.util.ui.TreeUtils;
 import lombok.Getter;
 
 import javax.swing.*;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-public class ExplorerImpl implements Explorer, MouseListener  {
+public class OldExplorerImpl implements Explorer, MouseListener  {
 
     private static final String[] ACTIONS = new String[]{"explorer.addfile", "explorer.createfolder", "explorer.deletefile"};
 
     private JTree jTree = null;
+    private DefaultTreeModel treeModel;
 
     private JScrollPane scrollPane = new JScrollPane();
 
-    @Getter private WorkSpace workSpace;
+    private BiMap<DefaultMutableTreeNode, File> nodes = HashBiMap.create();
 
+    @Getter private WorkSpace workSpace;
     private File base;
 
-    public ExplorerImpl(WorkSpace workSpace) {
+    public OldExplorerImpl(WorkSpace workSpace) {
         this.workSpace = workSpace;
-    }
-
-    private void createChildren(File fileRoot, DefaultMutableTreeNode node) {
-        File[] files = fileRoot.listFiles();
-        if (files == null) return;
-
-        for (File file : files) {
-            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new FileNode(file));
-            node.add(childNode);
-            if (file.isDirectory()) {
-                createChildren(file, childNode);
-            }
-        }
     }
 
     @Override
@@ -58,64 +48,66 @@ public class ExplorerImpl implements Explorer, MouseListener  {
 
     @Override
     public void open(File file) {
-        base =  file;
+        base = file;
+
         update();
+    }
+
+    //@Override
+    //public void selectFile(File file) {
+    //    jTree.getSelectionModel().setSelectionPath(TreeUtils.getPath(nodes.inverse().get(file)));
+    //}
+
+    private DefaultMutableTreeNode generateNode(File file) {
+        String path = file.getAbsolutePath();
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(file.getName());
+        node.setAllowsChildren(true);
+        nodes.put(node, file);
+        return node;
     }
 
     @Override
     public void update() {
-        String expandString = jTree == null ? null : ExplorerHelper.getExpansionState(jTree);
+        nodes.clear();
         if (jTree != null) scrollPane.getViewport().remove(jTree);
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(base));
-        jTree = new JTree(root);
-        jTree.setShowsRootHandles(true);
+        treeModel = new DefaultTreeModel(generateNode(base));
+        treeModel.setAsksAllowsChildren(true);
+        jTree = new JTree(treeModel);
         jTree.addMouseListener(this);
-
-        createChildren(base, root);
-
-        if (expandString != null) {
-            ExplorerHelper.setExpansionState(jTree, expandString);
-        }
+        jTree.addTreeExpansionListener(new TreeExpansionListener() {
+            @Override
+            public void treeExpanded(TreeExpansionEvent event) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) event.getPath().getLastPathComponent();
+                File currentRoot = nodes.get(node);
+                node.removeAllChildren();
+                File[] sup = currentRoot.listFiles();
+                if (sup == null) return;
+                for (File file : sup) {
+                    DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file.getName());
+                    node.add(fileNode);
+                }
+                treeModel.reload();
+                jTree.updateUI();
+            }
+            @Override public void treeCollapsed(TreeExpansionEvent treeExpansionEvent) {}
+        });
+        scrollPane.getViewport().add(jTree);
+        treeModel.reload();
+        jTree.updateUI();
 
         /* Workaround for SplitPane */
         jTree.setMinimumSize(new Dimension());
-        scrollPane.getViewport().add(jTree);
     }
 
     @Override
     public File selectedFile() {
-        FileNode node = (FileNode) ((DefaultMutableTreeNode) jTree.getSelectionPath().getLastPathComponent()).getUserObject();
-        return node.file;
+        return nodes.get(jTree.getSelectionPath().getLastPathComponent());
     }
 
     @Override
     public File baseDirectory() {
         return base;
-    }
-
-    @Override
-    public void saveExpanded() {
-        YamlFile configuration = YamlFile.loadFile(workSpace.getInformation().getBambooFile());
-        configuration.set("explorerexpand", ExplorerHelper.getExpansionState(jTree));
-        configuration.save();
-    }
-
-    @AllArgsConstructor
-    @Data
-    public class FileNode {
-
-        private File file;
-
-        @Override
-        public String toString() {
-            String name = file.getName();
-            if (name.equals("")) {
-                return file.getAbsolutePath();
-            } else {
-                return name;
-            }
-        }
     }
 
     @Override
@@ -145,7 +137,6 @@ public class ExplorerImpl implements Explorer, MouseListener  {
     @Override public void mousePressed(MouseEvent mouseEvent) {}
     @Override public void mouseReleased(MouseEvent mouseEvent) {}
 
-    @Override public void mouseEntered(MouseEvent mouseEvent) {}
-    @Override public void mouseExited(MouseEvent mouseEvent) {}
-
+    @Override public void mouseEntered(MouseEvent mouseEvent) {}@Override
+    public void mouseExited(MouseEvent mouseEvent) {}
 }
