@@ -111,6 +111,11 @@ public class OldExplorerImpl implements Explorer, MouseListener  {
     }
 
     @Override
+    public void saveExpanded() {
+
+    }
+
+    @Override
     public void mouseClicked(MouseEvent event) {
         if (SwingUtilities.isRightMouseButton(event)) {
             int row = jTree.getClosestRowForLocation(event.getX(), event.getY());

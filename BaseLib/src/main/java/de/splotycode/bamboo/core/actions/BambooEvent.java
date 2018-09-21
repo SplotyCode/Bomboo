@@ -57,14 +57,14 @@ public class BambooEvent extends ActionEvent {
         super(o, i, s);
         this.workSpace = workSpace;
         this.cause = cause;
-        window = SwingUtilities.windowForComponent((Component) o);
+        window = o instanceof Window ? (Window) o : SwingUtilities.windowForComponent((Component) o);
     }
 
     public BambooEvent(Object o, int i, String s, int i1, WorkSpace workSpace, EventCause cause) {
         super(o, i, s, i1);
         this.workSpace = workSpace;
         this.cause = cause;
-        window = SwingUtilities.windowForComponent((Component) o);
+        window = o instanceof Window ? (Window) o : SwingUtilities.windowForComponent((Component) o);
     }
 
     public boolean isAlt() {

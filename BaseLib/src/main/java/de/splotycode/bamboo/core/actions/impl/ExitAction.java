@@ -5,6 +5,8 @@ import de.splotycode.bamboo.core.actions.Action;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.actions.EventCause;
+import de.splotycode.bamboo.core.boot.BootLoader;
+import de.splotycode.bamboo.core.gui.BambooWindow;
 import de.splotycode.bamboo.core.gui.DialogHelper;
 import de.splotycode.bamboo.core.i18n.I18N;
 
@@ -18,11 +20,15 @@ public class ExitAction extends Action {
         if (event.getCause() == EventCause.WORKSPACE_SELECT_SCREEN) {
             if (Bamboo.getInstance().getOpenProjects().isEmpty()) {
                 showCloseDialog(event.getWindow());
+            } else {
+                BootLoader.getBootLoader().getCloseSelectWorkspace().run();
             }
         }
         //TODO check if workspace select is open
-        else if (Bamboo.getInstance().getOpenProjects().size() < 2) {
+        else if (Bamboo.getInstance().getOpenProjects().size() < 2 && !BootLoader.getBootLoader().getSelectWorkspaceOpen().get()) {
             showCloseDialog(event.getWindow());
+        } else {
+            event.getWorkSpace().close();
         }
     }
 

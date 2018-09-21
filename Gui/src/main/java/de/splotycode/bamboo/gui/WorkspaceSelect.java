@@ -11,16 +11,31 @@ import de.splotycode.bamboo.core.gui.BambooActionButton;
 import de.splotycode.bamboo.core.gui.BambooHtmlLabel;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.gui.BambooWindow;
+import de.splotycode.bamboo.gui.listener.WorkspaceSelectCloseListener;
+import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class WorkspaceSelect extends BambooWindow {
+public class WorkspaceSelect extends BambooWindow implements WorkspaceSelectCloseListener {
 
     private static JPanel workspaces = new JPanel();
+    @Getter private static boolean shown;
+
+    @Getter private static List<WorkspaceSelectCloseListener> closeListeners = new ArrayList<>();
+
+    @Override
+    public void close() {
+        shown = false;
+        closeQuietly();
+    }
 
     public WorkspaceSelect() {
+        shown = true;
+        closeListeners.add(this);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
@@ -63,6 +78,10 @@ public class WorkspaceSelect extends BambooWindow {
         }
         workspaces.revalidate();
         workspaces.repaint();
+    }
+
+    public static void closeAll() {
+        closeListeners.forEach(WorkspaceSelectCloseListener::close);
     }
 
 }

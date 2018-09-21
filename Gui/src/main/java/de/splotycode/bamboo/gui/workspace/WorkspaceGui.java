@@ -26,8 +26,7 @@ public class WorkspaceGui extends BambooWindow implements WorkspaceWindow {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
-                Bamboo.getInstance().getOpenProjects().remove(workSpace);
-                ActionManager.getInstance().callAction(new BambooEvent(e.getSource(), e.getID(), null, null, EventCause.WORKSPACE_CLOSE), CommonAction.EXIT);
+                ActionManager.getInstance().callAction(new BambooEvent(e.getSource(), e.getID(), null, workSpace, EventCause.WORKSPACE_CLOSE), CommonAction.EXIT);
             }
         });
         setRawTitle("Bamboo 1.0");
@@ -40,5 +39,10 @@ public class WorkspaceGui extends BambooWindow implements WorkspaceWindow {
     @Override
     public void add(JComponent component) {
         super.add(component);
+    }
+
+    @Override
+    public void closeWindow() {
+        closeQuietly();
     }
 }

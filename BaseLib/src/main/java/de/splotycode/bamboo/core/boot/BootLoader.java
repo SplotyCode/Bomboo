@@ -19,6 +19,8 @@ public class BootLoader {
     @Getter private static BootLoader bootLoader = new BootLoader();
 
     @Getter @Setter private Runnable showOpenedProjects;
+    @Getter @Setter private Supplier<Boolean> selectWorkspaceOpen;
+    @Getter @Setter private Runnable closeSelectWorkspace;
 
     @Getter @Setter private Supplier<List<LanguageDescriptor>> getDescriptors;
 

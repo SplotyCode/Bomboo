@@ -1,5 +1,6 @@
 package de.splotycode.bamboo.core.project;
 
+import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.notification.NotificationManager;
 import lombok.Getter;
@@ -34,7 +35,9 @@ public class WorkSpace {
     }
 
     public void close() {
+        Bamboo.getInstance().getOpenProjects().remove(this);
         explorer.saveExpanded();
+        window.closeWindow();
     }
 
 }

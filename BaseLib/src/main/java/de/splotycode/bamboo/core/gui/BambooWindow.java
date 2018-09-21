@@ -45,4 +45,9 @@ public class BambooWindow extends JFrame {
         setLocation(x, y);
     }
 
+    public void closeQuietly() {
+        setVisible(false);
+        dispose();
+    }
+
 }

@@ -26,6 +26,8 @@ public class Main {
         BootLoader.getBootLoader().setReloadWorkspaces(WorkspaceSelect::reloadWorkspaces);
         BootLoader.getBootLoader().setGenerateWindow(WorkspaceGui::new);
         BootLoader.getBootLoader().setGenerateExplorer(ExplorerImpl::new);
+        BootLoader.getBootLoader().setSelectWorkspaceOpen(WorkspaceSelect::isShown);
+        BootLoader.getBootLoader().setCloseSelectWorkspace(WorkspaceSelect::closeAll);
 
         Bamboo.getInstance().initalize();
     }
