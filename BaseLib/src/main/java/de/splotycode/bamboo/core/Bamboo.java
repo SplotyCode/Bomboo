@@ -3,11 +3,13 @@ package de.splotycode.bamboo.core;
 import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.project.WorkSpace;
+import de.splotycode.bamboo.core.util.Disposable;
 import de.splotycode.bamboo.core.util.init.InitialisedOnce;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.omg.SendingContext.RunTime;
 
 import javax.swing.*;
 import java.io.File;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Bamboo extends InitialisedOnce {
+public class Bamboo extends InitialisedOnce implements Disposable {
 
     @Getter private static Bamboo instance = new Bamboo();
 
@@ -35,6 +37,8 @@ public class Bamboo extends InitialisedOnce {
             e.printStackTrace();
         }
         loadWorkSpaces();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(this::dispose, "Bamboo shutdown Thread"));
 
         lookAndFeel();
         BootLoader.getBootLoader().getShowOpenedProjects().run();
@@ -63,4 +67,8 @@ public class Bamboo extends InitialisedOnce {
         return projectFiles;
     }
 
+    @Override
+    public void dispose() {
+        openProjects.forEach(WorkSpace::close);
+    }
 }
