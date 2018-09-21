@@ -35,7 +35,6 @@ public class WorkspaceMenuBar extends JMenuBar {
             JMenu menu = new JMenu(I18N.get("menubar." + menuName));
             for (String itemName : configuration.getStringList(menuName)) {
                 Action action = ActionManager.getInstance().getAction(itemName);
-                System.out.println(action.getDisplayName());
                 JMenuItem item = new JMenuItem(action.getDisplayName());
                 item.setToolTipText(action.getDescription());
                 item.addActionListener(ActionUtils.generateListener(action.internalName(), EventCause.MENU, workSpace));

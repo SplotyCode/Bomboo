@@ -2,28 +2,38 @@ package de.splotycode.bamboo.gui.workspace;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.ActionManager;
+import de.splotycode.bamboo.core.actions.BambooEvent;
+import de.splotycode.bamboo.core.actions.EventCause;
+import de.splotycode.bamboo.core.data.ExplorerDataKeys;
 import de.splotycode.bamboo.core.project.Explorer;
 import de.splotycode.bamboo.core.project.WorkSpace;
+import de.splotycode.bamboo.core.util.ActionUtils;
 import de.splotycode.bamboo.core.util.ui.TreeUtils;
 import lombok.Getter;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.function.Function;
 
-public class ExplorerImpl implements Explorer {
+public class ExplorerImpl implements Explorer, MouseListener  {
+
+    private static final String[] ACTIONS = new String[]{"explorer.createfolder"};
 
     private JTree jTree = null;
     private DefaultTreeModel treeModel;
 
     private JScrollPane scrollPane = new JScrollPane();
 
-    private BiMap<DefaultMutableTreeNode, File> nodes = HashBiMap.create();
+    private BiMap<DefaultMutableTreeNode, String> nodes = HashBiMap.create();
 
     @Getter private WorkSpace workSpace;
     private File base;
@@ -46,20 +56,24 @@ public class ExplorerImpl implements Explorer {
 
     @Override
     public void selectFile(File file) {
-        jTree.getSelectionModel().setSelectionPath(TreeUtils.getPath(nodes.inverse().get(file)));
+        jTree.getSelectionModel().setSelectionPath(TreeUtils.getPath(nodes.inverse().get(file.getAbsolutePath())));
     }
 
     private DefaultMutableTreeNode generateNode(File file) {
+        String path = file.getAbsolutePath();
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(file.getName()) {
             @Override
             public boolean isLeaf() {
+                File file = new File(path);
                 if (!file.isDirectory()) return true;
                 File[] files = file.listFiles();
-                return files == null || files.length == 0;
+                boolean result = files == null || files.length == 0;
+                System.out.println(path + " " + result);
+                return result;
             }
         };
         node.setAllowsChildren(true);
-        nodes.put(node, file);
+        nodes.put(node, file.getAbsolutePath());
         return node;
     }
 
@@ -70,11 +84,12 @@ public class ExplorerImpl implements Explorer {
 
         treeModel = new DefaultTreeModel(generateNode(base));
         jTree = new JTree(treeModel);
+        jTree.addMouseListener(this);
         jTree.addTreeExpansionListener(new TreeExpansionListener() {
             @Override
             public void treeExpanded(TreeExpansionEvent event) {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) event.getPath().getLastPathComponent();
-                File currentRoot = nodes.get(node);
+                File currentRoot = new File(nodes.get(node));
                 node.removeAllChildren();
                 File[] sup = currentRoot.listFiles();
                 if (sup == null) return;
@@ -83,24 +98,21 @@ public class ExplorerImpl implements Explorer {
                     node.add(fileNode);
                 }
                 treeModel.reload();
-                System.out.println(currentRoot.getAbsolutePath());
+                jTree.updateUI();
             }
             @Override public void treeCollapsed(TreeExpansionEvent treeExpansionEvent) {}
         });
         scrollPane.getViewport().add(jTree);
+        treeModel.reload();
+        jTree.updateUI();
 
         /* Workaround for SplitPane */
         jTree.setMinimumSize(new Dimension());
     }
 
     @Override
-    public Function<File, JPopupMenu> generatePopup() {
-        return null;
-    }
-
-    @Override
     public File selectedFile() {
-        return nodes.get(jTree.getSelectionPath().getLastPathComponent());
+        return new File(nodes.get(jTree.getSelectionPath().getLastPathComponent()));
     }
 
     @Override
@@ -108,4 +120,33 @@ public class ExplorerImpl implements Explorer {
         return base;
     }
 
+    @Override
+    public void mouseClicked(MouseEvent event) {
+        if (SwingUtilities.isRightMouseButton(event)) {
+            int row = jTree.getClosestRowForLocation(event.getX(), event.getY());
+            jTree.setSelectionRow(row);
+            JPopupMenu menu = new JPopupMenu();
+            for (String actionName : ACTIONS) {
+                Action action = ActionManager.getInstance().getAction(actionName);
+                JMenuItem item = new JMenuItem(action.getDisplayName());
+                item.setToolTipText(action.getDescription());
+                item.addActionListener(itemEvent -> {
+                    BambooEvent bambooEvent = ActionUtils.convertEvent(itemEvent, workSpace, EventCause.EXPLORER);
+                    bambooEvent.factoryBuilder()
+                            .addData(ExplorerDataKeys.EXPLORER, this)
+                            .addData(ExplorerDataKeys.SELECTED_FILE, selectedFile())
+                            .build();
+                    action.onAction(bambooEvent);
+                });
+                menu.add(item);
+            }
+            menu.show(event.getComponent(), event.getX(), event.getY());
+        }
+    }
+
+    @Override public void mousePressed(MouseEvent mouseEvent) {}
+    @Override public void mouseReleased(MouseEvent mouseEvent) {}
+
+    @Override public void mouseEntered(MouseEvent mouseEvent) {}@Override
+    public void mouseExited(MouseEvent mouseEvent) {}
 }

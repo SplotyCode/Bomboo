@@ -6,6 +6,7 @@ public enum EventCause {
     MENU,
     SHORTCURT,
     WORKSPACE_SELECT_SCREEN,
-    WORKSPACE_CLOSE
+    WORKSPACE_CLOSE,
+    EXPLORER
 
 }

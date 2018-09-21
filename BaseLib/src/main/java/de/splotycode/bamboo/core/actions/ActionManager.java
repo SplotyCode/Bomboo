@@ -4,6 +4,7 @@ import com.google.common.reflect.ClassPath;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
 public class ActionManager {
@@ -16,7 +17,7 @@ public class ActionManager {
         try {
             for (ClassPath.ClassInfo clazzInfo : ClassPath.from(getClass().getClassLoader()).getTopLevelClassesRecursive("de.splotycode.bamboo.core.actions.impl")) {
                 Class<?> clazz = clazzInfo.load();
-                if (Action.class.isAssignableFrom(clazz)) {
+                if (Action.class.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers())) {
                     Action action = (Action) clazz.newInstance();
                     actions.putIfAbsent(action.internalName(), action);
                 }
