@@ -44,11 +44,11 @@ public class WorkSpace {
 
     public void openFile(File file) {
         if (editors.inverse().containsKey(file)) {
-            editorTabs.getModel().setSelectedIndex(editorTabs.indexOfComponent(editors.inverse().get(file)));
+            editorTabs.getModel().setSelectedIndex(editorTabs.indexOfComponent(editors.inverse().get(file).getComponent()));
         } else {
             Editor editor = new Editor(file);
             editors.put(editor, file);
-            editorTabs.addTab(file.getName(), editor);
+            editorTabs.addTab(file.getName(), editor.getComponent());
         }
     }
 
