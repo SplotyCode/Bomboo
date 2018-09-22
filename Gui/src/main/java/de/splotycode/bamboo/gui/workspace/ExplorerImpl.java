@@ -139,6 +139,10 @@ public class ExplorerImpl implements Explorer, MouseListener  {
                 menu.add(item);
             }
             menu.show(event.getComponent(), event.getX(), event.getY());
+        } else if (event.getClickCount() >= 2){
+            int row = jTree.getClosestRowForLocation(event.getX(), event.getY());
+            jTree.setSelectionRow(row);
+            workSpace.openFile(selectedFile());
         }
     }
 
