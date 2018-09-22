@@ -16,6 +16,7 @@
         <module>Html</module>
         <module>Boot</module>
         <module>CSS</module>
+        <module>DefaultEditors</module>
     </modules>
 
     <build>
