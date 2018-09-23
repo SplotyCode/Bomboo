@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
-public class LoadWorkspace extends Action {
+public class LoadWorkspaceAction extends Action {
 
     @Override
     public void onAction(BambooEvent event) {

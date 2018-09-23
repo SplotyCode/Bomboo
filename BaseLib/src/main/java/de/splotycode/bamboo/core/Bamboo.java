@@ -69,6 +69,7 @@ public class Bamboo extends InitialisedOnce implements Disposable {
 
     @Override
     public void dispose() {
-        openProjects.forEach(WorkSpace::close);
+        for (WorkSpace workSpace : new ArrayList<>(openProjects))
+            workSpace.close();
     }
 }

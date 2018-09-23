@@ -25,7 +25,7 @@ import java.util.Enumeration;
 
 public class ExplorerImpl implements Explorer, MouseListener  {
 
-    private static final String[] ACTIONS = new String[]{"explorer.addfile", "explorer.createfolder", "explorer.deletefile"};
+    private static final String[] ACTIONS = new String[]{"explorer.addfile", "explorer.createfolder", "explorer.deletefile", "file.reload"};
 
     private JTree jTree = null;
 
@@ -57,7 +57,7 @@ public class ExplorerImpl implements Explorer, MouseListener  {
 
     @Override
     public void update() {
-        String expandString = jTree == null ? null : ExplorerHelper.getExpansionState(jTree);
+        String expandString = jTree == null ? YamlFile.loadFile(workSpace.getInformation().getBambooFile()).getString("explorerexpand") : ExplorerHelper.getExpansionState(jTree);
         if (jTree != null) scrollPane.getViewport().remove(jTree);
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");

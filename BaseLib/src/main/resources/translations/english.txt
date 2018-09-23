@@ -75,3 +75,6 @@ actions.projects.create.name: Create Project
 actions.projects.create.description: Create a new Project
 actions.projects.create.dialog.title: Already Exists
 actions.projects.create.dialog.message: The Project already Exists
+actions.file.reload.name: Reload Files
+actions.file.reload.description: Reload File System
+

@@ -38,8 +38,6 @@ public class WorkSpace {
 
         mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, explorer.getComponent(), editorTabs);
         window.add(mainSplit);
-
-        reloadFileSystem();
     }
 
     public File getBaseDirecotory() {
@@ -72,12 +70,12 @@ public class WorkSpace {
                 if (descriptor != null)
                     neededDescriptors.add(descriptor);
             }
-            for (LanguageDescriptor descriptor : project.getLanguageDescriptors()) {
+            for (LanguageDescriptor descriptor : new ArrayList<>(project.getLanguageDescriptors())) {
                 if (!neededDescriptors.contains(descriptor)) {
                     project.uninstallLanguageDescriptor(descriptor);
                 }
             }
-            for (LanguageDescriptor descriptor : neededDescriptors) {
+            for (LanguageDescriptor descriptor : new ArrayList<>(neededDescriptors)) {
                 if (!project.getLanguageDescriptors().contains(descriptor)) {
                     project.installLanguageDescriptor(descriptor);
                 }

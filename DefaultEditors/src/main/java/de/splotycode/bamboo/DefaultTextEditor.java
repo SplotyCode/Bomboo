@@ -28,7 +28,7 @@ public class DefaultTextEditor extends AbstractTextDescriptor {
 
     @Override
     public String[] fileTypes() {
-        return new String[] {"txt", "log", "json"};
+        return new String[] {"txt", "log", "json", "html", "htm"};
     }
 
     @Override
