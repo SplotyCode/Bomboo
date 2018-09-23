@@ -22,7 +22,7 @@ public class AddFileExplorerAction extends ExplorerAction {
                 return;
             }
             FileUtils.createFile(new File(file, result));
-            explorer.update();
+            event.getWorkSpace().reloadFileSystem();
         }
     }
 

@@ -46,12 +46,12 @@ public class OldExplorerImpl implements Explorer, MouseListener  {
         return scrollPane;
     }
 
-    @Override
+    /*@Override
     public void open(File file) {
         base = file;
 
         update();
-    }
+    }*/
 
     //@Override
     //public void selectFile(File file) {
@@ -105,10 +105,10 @@ public class OldExplorerImpl implements Explorer, MouseListener  {
         return nodes.get(jTree.getSelectionPath().getLastPathComponent());
     }
 
-    @Override
-    public File baseDirectory() {
-        return base;
-    }
+    //@Override
+    //public File baseDirectory() {
+    //    return base;
+    //}
 
     @Override
     public void saveExpanded() {

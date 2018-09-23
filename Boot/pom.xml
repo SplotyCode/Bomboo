@@ -31,6 +31,11 @@
             <artifactId>CSS</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>de.splotycode.bomboo</groupId>
+            <artifactId>DefaultEditors</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 

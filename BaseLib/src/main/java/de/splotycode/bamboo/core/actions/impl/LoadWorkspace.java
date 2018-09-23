@@ -13,6 +13,7 @@ import de.splotycode.bamboo.core.project.Project;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
+import de.splotycode.bamboo.core.yaml.YamlFile;
 
 import java.io.File;
 import java.util.List;
@@ -36,22 +37,25 @@ public class LoadWorkspace extends Action {
 
         WorkSpace workSpace = new WorkSpace(information);
 
+        Bamboo.getInstance().getOpenProjects().add(workSpace);
+
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(information.getBambooFile());
         for (String projectName : configuration.getStringList("projects")) {
-            Project project = new Project(SimpleProjectInformation.load(new File(projectName)));
-            List<String> types = configuration.getStringList("languages");
+            System.out.println("Loading Project: " + projectName);
+            Project project = new Project(workSpace, SimpleProjectInformation.load(new File(projectName)));
+            List<String> types = YamlFile.loadFile(project.bambooFile()).getStringList("languages");
 
             for (String type : types) {
                 Optional<LanguageDescriptor> loader = BootLoader.getBootLoader().getGetDescriptors().get().stream().filter(cLoader -> cLoader.getLanguage().name().equalsIgnoreCase(type)).findFirst();
                 if (loader.isPresent()) {
-                    loader.get().load(project, configuration);
+                    project.installLanguageDescriptor(loader.get());
                 } else {
                     workSpace.getNotifications().push("noloader", NotificationType.ERROR);
                 }
             }
             workSpace.getProjects().add(project);
         }
-        Bamboo.getInstance().getOpenProjects().add(workSpace);
+        workSpace.reloadFileSystem();
     }
 
     @Override

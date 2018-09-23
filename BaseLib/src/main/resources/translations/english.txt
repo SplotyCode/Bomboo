@@ -71,3 +71,7 @@ actions.explorer.addfile.wrongformat.title: Wrong Format
 actions.explorer.addfile.wrongformat.message: Wrong Format: Illegal Character
 actions.explorer.addfile.dialog.title: Specify File Name
 actions.explorer.addfile.dialog.message: Create New File
+actions.projects.create.name: Create Project
+actions.projects.create.description: Create a new Project
+actions.projects.create.dialog.title: Already Exists
+actions.projects.create.dialog.message: The Project already Exists

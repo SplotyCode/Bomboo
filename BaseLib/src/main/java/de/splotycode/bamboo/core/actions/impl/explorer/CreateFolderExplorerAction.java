@@ -22,7 +22,7 @@ public class CreateFolderExplorerAction extends ExplorerAction {
                 return;
             }
             new File(file, result).mkdirs();
-            explorer.update();
+            event.getWorkSpace().reloadFileSystem();
         }
     }
 

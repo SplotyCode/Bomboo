@@ -1,6 +1,9 @@
 package de.splotycode.bamboo.core.editor;
 
+import de.splotycode.bamboo.core.project.LanguageDescriptor;
+import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.util.Disposable;
+import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
@@ -12,21 +15,26 @@ import java.io.IOException;
 
 public class Editor extends JTextArea implements Disposable, DocumentListener  {
 
-    private File file;
+    @Getter private File file;
     private JScrollPane scrollPane = new JScrollPane(this);
+    @Getter private LanguageDescriptor descriptor;
+    private WorkSpace workSpace;
 
     private LineNumberComponent lineNumbers = new LineNumberComponent(this);
 
-    public Editor(File file) {
+    public Editor(File file, LanguageDescriptor descriptor, WorkSpace workSpace) {
         this.file = file;
+        this.workSpace = workSpace;
+        this.descriptor = descriptor;
         scrollPane.setRowHeaderView(lineNumbers);
         lineNumbers.setAlignment(LineNumberComponent.CENTER_ALIGNMENT);
         getDocument().addDocumentListener(this);
         try {
-            setText(FileUtils.readFileToString(file, "UTF-8"));
+            setText(descriptor.loadContent(file));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        descriptor.prepairEditor(this, workSpace);
     }
 
     public Component getComponent() {

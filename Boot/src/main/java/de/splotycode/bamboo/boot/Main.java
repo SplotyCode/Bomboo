@@ -1,5 +1,6 @@
 package de.splotycode.bamboo.boot;
 
+import de.splotycode.bamboo.DefaultTextEditor;
 import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.i18n.I18N;
@@ -22,7 +23,7 @@ public class Main {
         I18N.getInstance().setLocale(Locale.ENGLISH);
 
         BootLoader.getBootLoader().setShowOpenedProjects(WorkspaceSelect::new);
-        BootLoader.getBootLoader().setGetDescriptors(() -> Arrays.asList(new HtmlDescriptor(), new CSSDescriptor()));
+        BootLoader.getBootLoader().setGetDescriptors(() -> Arrays.asList(new HtmlDescriptor(), new CSSDescriptor(), new DefaultTextEditor()));
         BootLoader.getBootLoader().setReloadWorkspaces(WorkspaceSelect::reloadWorkspaces);
         BootLoader.getBootLoader().setGenerateWindow(WorkspaceGui::new);
         BootLoader.getBootLoader().setGenerateExplorer(ExplorerImpl::new);

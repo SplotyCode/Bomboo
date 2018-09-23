@@ -5,9 +5,7 @@ import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.EventCause;
 import de.splotycode.bamboo.core.data.ExplorerDataKeys;
-import de.splotycode.bamboo.core.project.Explorer;
-import de.splotycode.bamboo.core.project.ExplorerHelper;
-import de.splotycode.bamboo.core.project.WorkSpace;
+import de.splotycode.bamboo.core.project.*;
 import de.splotycode.bamboo.core.util.ActionUtils;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 import de.splotycode.bamboo.core.yaml.YamlFile;
@@ -17,10 +15,13 @@ import lombok.Getter;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.Enumeration;
 
 public class ExplorerImpl implements Explorer, MouseListener  {
 
@@ -32,21 +33,19 @@ public class ExplorerImpl implements Explorer, MouseListener  {
 
     @Getter private WorkSpace workSpace;
 
-    private File base;
-
     public ExplorerImpl(WorkSpace workSpace) {
         this.workSpace = workSpace;
     }
 
-    private void createChildren(File fileRoot, DefaultMutableTreeNode node) {
+    private void createChildren(File fileRoot, DefaultMutableTreeNode node, Project project) {
         File[] files = fileRoot.listFiles();
         if (files == null) return;
 
         for (File file : files) {
-            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new FileNode(file));
+            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new FileNode(file, file.getName(), project));
             node.add(childNode);
             if (file.isDirectory()) {
-                createChildren(file, childNode);
+                createChildren(file, childNode, project);
             }
         }
     }
@@ -57,22 +56,19 @@ public class ExplorerImpl implements Explorer, MouseListener  {
     }
 
     @Override
-    public void open(File file) {
-        base =  file;
-        update();
-    }
-
-    @Override
     public void update() {
         String expandString = jTree == null ? null : ExplorerHelper.getExpansionState(jTree);
         if (jTree != null) scrollPane.getViewport().remove(jTree);
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(base));
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+        for (Project project : workSpace.getProjects()) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(new FileNode(project.workSpace(), project.name(), project));
+            root.add(node);
+            createChildren(project.workSpace(), node, project);
+        }
         jTree = new JTree(root);
-        jTree.setShowsRootHandles(true);
+        jTree.setRootVisible(false);
         jTree.addMouseListener(this);
-
-        createChildren(base, root);
 
         if (expandString != null) {
             ExplorerHelper.setExpansionState(jTree, expandString);
@@ -85,13 +81,11 @@ public class ExplorerImpl implements Explorer, MouseListener  {
 
     @Override
     public File selectedFile() {
-        FileNode node = (FileNode) ((DefaultMutableTreeNode) jTree.getSelectionPath().getLastPathComponent()).getUserObject();
-        return node.file;
+        return selectedFileNode().file;
     }
 
-    @Override
-    public File baseDirectory() {
-        return base;
+    public FileNode selectedFileNode() {
+        return (FileNode) ((DefaultMutableTreeNode) jTree.getSelectionPath().getLastPathComponent()).getUserObject();
     }
 
     @Override
@@ -106,24 +100,32 @@ public class ExplorerImpl implements Explorer, MouseListener  {
     public class FileNode {
 
         private File file;
+        private String displayName;
+        private Project project;
 
         @Override
         public String toString() {
-            String name = file.getName();
-            if (name.equals("")) {
-                return file.getAbsolutePath();
-            } else {
-                return name;
-            }
+            return displayName;
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent event) {
+        int row = jTree.getClosestRowForLocation(event.getX(), event.getY());
+        jTree.setSelectionRow(row);
+        FileNode node = selectedFileNode();
+        File selectedFile = node.file;
         if (SwingUtilities.isRightMouseButton(event)) {
-            int row = jTree.getClosestRowForLocation(event.getX(), event.getY());
-            jTree.setSelectionRow(row);
             JPopupMenu menu = new JPopupMenu();
+            JMenu openWith = new JMenu("Open With");
+            for (LanguageDescriptor descriptor : node.project.getDescriptorsByFile(selectedFile)) {
+                JMenuItem item = new JMenuItem(descriptor.getLanguage().name());
+                item.addActionListener(actionEvent -> {
+                    workSpace.openFile(selectedFile, descriptor);
+                });
+                openWith.add(item);
+            }
+            menu.add(openWith);
             for (String actionName : ACTIONS) {
                 Action action = ActionManager.getInstance().getAction(actionName);
                 JMenuItem item = new JMenuItem(action.getDisplayName());
@@ -132,7 +134,7 @@ public class ExplorerImpl implements Explorer, MouseListener  {
                     BambooEvent bambooEvent = ActionUtils.convertEvent(itemEvent, workSpace, EventCause.EXPLORER);
                     bambooEvent.factoryBuilder()
                             .addData(ExplorerDataKeys.EXPLORER, this)
-                            .addData(ExplorerDataKeys.SELECTED_FILE, selectedFile())
+                            .addData(ExplorerDataKeys.SELECTED_FILE, selectedFile)
                             .build();
                     action.onAction(bambooEvent);
                 });
@@ -140,9 +142,7 @@ public class ExplorerImpl implements Explorer, MouseListener  {
             }
             menu.show(event.getComponent(), event.getX(), event.getY());
         } else if (event.getClickCount() >= 2){
-            int row = jTree.getClosestRowForLocation(event.getX(), event.getY());
-            jTree.setSelectionRow(row);
-            workSpace.openFile(selectedFile());
+            workSpace.openFile(selectedFile);
         }
     }
 

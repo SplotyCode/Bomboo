@@ -10,7 +10,7 @@ public class DeleteExplorerAction extends ExplorerAction {
     @Override
     protected void explorerAction(Explorer explorer, File file, BambooEvent event) {
         file.delete();
-        explorer.update();
+        event.getWorkSpace().reloadFileSystem();
     }
 
     @Override

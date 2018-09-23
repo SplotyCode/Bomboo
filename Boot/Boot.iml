@@ -19,5 +19,6 @@
     <orderEntry type="module" module-name="Gui" />
     <orderEntry type="module" module-name="Html" />
     <orderEntry type="module" module-name="CSS" />
+    <orderEntry type="module" module-name="DefaultEditors" />
   </component>
 </module>

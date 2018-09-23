@@ -11,6 +11,7 @@ public interface LanguageDescriptor {
     void load(Project project, Configuration configuration, WorkSpace workSpace);
 
     String loadContent(File file) throws IOException;
+    void saveContent(Editor editor, String text) throws IOException;
 
     void prepairEditor(Editor editor, WorkSpace workSpace);
 
