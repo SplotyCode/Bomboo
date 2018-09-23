@@ -117,15 +117,19 @@ public class ExplorerImpl implements Explorer, MouseListener  {
         File selectedFile = node.file;
         if (SwingUtilities.isRightMouseButton(event)) {
             JPopupMenu menu = new JPopupMenu();
-            JMenu openWith = new JMenu("Open With");
-            for (LanguageDescriptor descriptor : node.project.getDescriptorsByFile(selectedFile)) {
-                JMenuItem item = new JMenuItem(descriptor.getLanguage().name());
-                item.addActionListener(actionEvent -> {
-                    workSpace.openFile(selectedFile, descriptor);
-                });
-                openWith.add(item);
+
+            if (!selectedFile.isDirectory()) {
+                JMenu openWith = new JMenu("Open With");
+                for (LanguageDescriptor descriptor : node.project.getDescriptorsByFile(selectedFile)) {
+                    JMenuItem item = new JMenuItem(descriptor.getLanguage().name());
+                    item.addActionListener(actionEvent -> {
+                        workSpace.openFile(selectedFile, descriptor);
+                    });
+                    openWith.add(item);
+                }
+                menu.add(openWith);
             }
-            menu.add(openWith);
+
             for (String actionName : ACTIONS) {
                 Action action = ActionManager.getInstance().getAction(actionName);
                 JMenuItem item = new JMenuItem(action.getDisplayName());
@@ -141,8 +145,9 @@ public class ExplorerImpl implements Explorer, MouseListener  {
                 menu.add(item);
             }
             menu.show(event.getComponent(), event.getX(), event.getY());
-        } else if (event.getClickCount() >= 2){
-            workSpace.openFile(selectedFile);
+        } else if (event.getClickCount() >= 2) {
+            if (!selectedFile.isDirectory())
+                workSpace.openFile(selectedFile);
         }
     }
 
