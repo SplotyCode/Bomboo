@@ -94,3 +94,7 @@ actions.explorer.showinbrowser.name: Browse
 actions.explorer.showinbrowser.description: Browse in System File Explorer
 actions.explorer.printfile.name: Print File
 actions.explorer.printfile.description: Print File over Operation System
+actions.file.save.name: Save File
+actions.file.save.description: Save Editing File
+actions.file.saveall.name: Save All Files
+actions.file.saveall.description: Save All Edited Files

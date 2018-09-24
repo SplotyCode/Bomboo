@@ -1,11 +1,9 @@
 package de.splotycode.bamboo.core.project;
 
-import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.editor.Editor;
-import de.splotycode.bamboo.core.gui.ColorConstants;
 import de.splotycode.bamboo.core.gui.DialogHelper;
 import de.splotycode.bamboo.core.gui.components.BambooSplitPane;
 import de.splotycode.bamboo.core.gui.components.BambooTabbedPane;
@@ -15,8 +13,10 @@ import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 public class WorkSpace {
 
@@ -32,7 +32,9 @@ public class WorkSpace {
 
     @Getter private BambooTabbedPane editorTabs = new BambooTabbedPane();
 
-    @Getter private HashMap<File, Editor> editors = new HashMap<>();
+    @Getter private HashMap<File, Editor> editorMap = new HashMap<>();
+
+    @Getter private HashBiMap<Component, Editor> editorTabMap = HashBiMap.create();
 
     public WorkSpace(SimpleProjectInformation information) {
         this.information = information;
@@ -59,11 +61,12 @@ public class WorkSpace {
     }
 
     public void openFile(File file, LanguageDescriptor descriptor) {
-        if (editors.containsKey(file)) {
-            editorTabs.getModel().setSelectedIndex(editorTabs.indexOfComponent(editors.get(file).getComponent()));
+        if (editorMap.containsKey(file)) {
+            editorTabs.getModel().setSelectedIndex(editorTabs.indexOfComponent(editorMap.get(file).getComponent()));
         } else {
             Editor editor = new Editor(file, descriptor, this);
-            editors.put(file, editor);
+            editorMap.put(file, editor);
+            editorTabMap.put(editor.getComponent(), editor);
             editorTabs.addTab(file.getName(), editor.getComponent());
         }
     }
@@ -116,6 +119,16 @@ public class WorkSpace {
         Bamboo.getInstance().getOpenProjects().remove(this);
         explorer.saveExpanded();
         window.closeWindow();
+    }
+
+    public Collection<Editor> getEditors() {
+        return getEditorMap().values();
+    }
+
+    public Editor getSelectedEditor() {
+        Component component = editorTabs.getSelectedComponent();
+        if (component == null) return null;
+        return editorTabMap.get(component);
     }
 
 }

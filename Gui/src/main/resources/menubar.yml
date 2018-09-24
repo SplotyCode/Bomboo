@@ -3,4 +3,6 @@ file:
 - "projects.create"
 - "file.workspace.close"
 - "file.reload"
+- "file.save"
+- "file.saveall"
 - "file.exit"

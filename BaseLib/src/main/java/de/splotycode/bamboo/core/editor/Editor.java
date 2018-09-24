@@ -20,10 +20,13 @@ public class Editor extends BambooTextArea implements Disposable, DocumentListen
     @Getter private LanguageDescriptor descriptor;
     private WorkSpace workSpace;
 
+    private String diskState;
+
     private LineNumberComponent lineNumbers = new LineNumberComponent(this);
 
     public Editor(File file, LanguageDescriptor descriptor, WorkSpace workSpace) {
         super("Loading...");
+        setEditable(false);
         this.file = file;
         this.workSpace = workSpace;
         this.descriptor = descriptor;
@@ -31,20 +34,38 @@ public class Editor extends BambooTextArea implements Disposable, DocumentListen
         lineNumbers.setAlignment(LineNumberComponent.CENTER_ALIGNMENT);
         getDocument().addDocumentListener(this);
         try {
-            setText(descriptor.loadContent(file));
+            diskState = descriptor.loadContent(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setText(diskState);
         descriptor.prepairEditor(this, workSpace);
+        setEditable(true);
     }
 
     public Component getComponent() {
         return scrollPane;
     }
 
+    public void save() {
+        setEditable(false);
+        if (hasChanged()) {
+            try {
+                descriptor.saveContent(this, getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        setEditable(true);
+    }
+
+    public boolean hasChanged() {
+        return !getText().equals(diskState);
+    }
+
     @Override
     public void dispose() {
-
+        save();
     }
 
     @Override
