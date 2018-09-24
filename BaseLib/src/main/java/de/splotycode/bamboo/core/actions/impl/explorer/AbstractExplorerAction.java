@@ -1,13 +1,13 @@
 package de.splotycode.bamboo.core.actions.impl.explorer;
 
-import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.AbstractAction;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.data.ExplorerDataKeys;
 import de.splotycode.bamboo.core.project.Explorer;
 
 import java.io.File;
 
-public abstract class AbstractExplorerAction extends Action {
+public abstract class AbstractExplorerAction extends AbstractAction {
 
     @Override
     public final void onAction(BambooEvent event) {

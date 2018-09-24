@@ -1,20 +1,19 @@
 package de.splotycode.bamboo.core.actions.impl;
 
-import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.AbstractAction;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.gui.DialogHelper;
 import de.splotycode.bamboo.core.i18n.I18N;
 import de.splotycode.bamboo.core.project.Project;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.util.FileUtils;
-import de.splotycode.bamboo.core.yaml.FileConfiguration;
 import de.splotycode.bamboo.core.yaml.YamlFile;
 
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
-public class CreateProjectAction extends Action {
+public class CreateProjectAction extends AbstractAction {
 
     @Override
     public void onAction(BambooEvent event) {

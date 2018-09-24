@@ -1,7 +1,7 @@
 package de.splotycode.bamboo.core.actions.impl;
 
 import de.splotycode.bamboo.core.Bamboo;
-import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.AbstractAction;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.boot.BootLoader;
@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
-public class LoadWorkspaceAction extends Action {
+public class LoadWorkspaceAction extends AbstractAction {
 
     @Override
     public void onAction(BambooEvent event) {

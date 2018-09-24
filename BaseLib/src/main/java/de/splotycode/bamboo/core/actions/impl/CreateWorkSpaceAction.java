@@ -1,7 +1,7 @@
 package de.splotycode.bamboo.core.actions.impl;
 
 import de.splotycode.bamboo.core.Bamboo;
-import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.AbstractAction;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.boot.BootLoader;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateWorkSpaceAction extends Action {
+public class CreateWorkSpaceAction extends AbstractAction {
 
     @Override
     public void onAction(BambooEvent event) {

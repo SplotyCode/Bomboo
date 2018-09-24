@@ -11,14 +11,14 @@ public class ActionManager {
 
     @Getter private static ActionManager instance = new ActionManager();
 
-    @Getter private HashMap<String, Action> actions = new HashMap<>();
+    @Getter private HashMap<String, AbstractAction> actions = new HashMap<>();
 
     public ActionManager() {
         try {
             for (ClassPath.ClassInfo clazzInfo : ClassPath.from(getClass().getClassLoader()).getTopLevelClassesRecursive("de.splotycode.bamboo.core.actions.impl")) {
                 Class<?> clazz = clazzInfo.load();
-                if (Action.class.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers())) {
-                    Action action = (Action) clazz.newInstance();
+                if (AbstractAction.class.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers())) {
+                    AbstractAction action = (AbstractAction) clazz.newInstance();
                     actions.putIfAbsent(action.internalName(), action);
                 }
             }
@@ -36,19 +36,19 @@ public class ActionManager {
         callAction(event, commonAction.getInternalName());
     }
 
-    public Action getAction(String internalName) {
+    public AbstractAction getAction(String internalName) {
         return actions.get(internalName);
     }
 
-    public Action getAction(CommonAction commonAction) {
+    public AbstractAction getAction(CommonAction commonAction) {
         return getAction(commonAction.getInternalName());
     }
 
-    public <T extends Action> T getAction(String internalName, Class<T> clazz) {
+    public <T extends AbstractAction> T getAction(String internalName, Class<T> clazz) {
         return (T) actions.get(internalName);
     }
 
-    public <T extends Action> T getAction(CommonAction commonAction, Class<T> clazz) {
+    public <T extends AbstractAction> T getAction(CommonAction commonAction, Class<T> clazz) {
         return getAction(commonAction.getInternalName(), clazz);
     }
 

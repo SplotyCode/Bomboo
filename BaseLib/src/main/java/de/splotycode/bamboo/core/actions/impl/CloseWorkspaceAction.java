@@ -1,10 +1,10 @@
 package de.splotycode.bamboo.core.actions.impl;
 
-import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.AbstractAction;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.boot.BootLoader;
 
-public class CloseWorkspaceAction extends Action {
+public class CloseWorkspaceAction extends AbstractAction {
 
     @Override
     public void onAction(BambooEvent event) {

@@ -2,7 +2,7 @@ package de.splotycode.bamboo.gui.workspace;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.AbstractAction;
 import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.EventCause;
@@ -10,7 +10,6 @@ import de.splotycode.bamboo.core.data.ExplorerDataKeys;
 import de.splotycode.bamboo.core.project.Explorer;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.util.ActionUtils;
-import de.splotycode.bamboo.core.util.ui.TreeUtils;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -122,7 +121,7 @@ public class OldExplorerImpl implements Explorer, MouseListener  {
             jTree.setSelectionRow(row);
             JPopupMenu menu = new JPopupMenu();
             for (String actionName : ACTIONS) {
-                Action action = ActionManager.getInstance().getAction(actionName);
+                AbstractAction action = ActionManager.getInstance().getAction(actionName);
                 JMenuItem item = new JMenuItem(action.getDisplayName());
                 item.setToolTipText(action.getDescription());
                 item.addActionListener(itemEvent -> {

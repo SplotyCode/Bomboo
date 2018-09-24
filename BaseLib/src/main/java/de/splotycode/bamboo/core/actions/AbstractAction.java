@@ -4,7 +4,7 @@ import de.splotycode.bamboo.core.i18n.I18N;
 
 import javax.swing.*;
 
-public abstract class Action {
+public abstract class AbstractAction {
 
     public abstract void onAction(BambooEvent event);
 

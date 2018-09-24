@@ -1,6 +1,6 @@
 package de.splotycode.bamboo.gui.workspace;
 
-import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.AbstractAction;
 import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.EventCause;
@@ -12,13 +12,10 @@ import de.splotycode.bamboo.core.gui.components.tree.BambooFileTreeRenderer;
 import de.splotycode.bamboo.core.gui.components.tree.BambooTree;
 import de.splotycode.bamboo.core.gui.components.menu.BambooMenu;
 import de.splotycode.bamboo.core.gui.components.menu.BambooMenuItem;
-import de.splotycode.bamboo.core.gui.components.tree.BambooTreeRenderer;
 import de.splotycode.bamboo.core.gui.components.tree.FileNode;
 import de.splotycode.bamboo.core.project.*;
 import de.splotycode.bamboo.core.util.ActionUtils;
 import de.splotycode.bamboo.core.yaml.YamlFile;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -124,7 +121,7 @@ public class ExplorerImpl implements Explorer, MouseListener  {
             }
 
             for (String actionName : ACTIONS) {
-                Action action = ActionManager.getInstance().getAction(actionName);
+                AbstractAction action = ActionManager.getInstance().getAction(actionName);
                 BambooMenuItem item = new BambooMenuItem(action.getDisplayName());
                 item.setToolTipText(action.getDescription());
                 item.addActionListener(itemEvent -> {

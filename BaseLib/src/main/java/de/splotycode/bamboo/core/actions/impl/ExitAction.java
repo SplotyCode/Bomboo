@@ -1,7 +1,7 @@
 package de.splotycode.bamboo.core.actions.impl;
 
 import de.splotycode.bamboo.core.Bamboo;
-import de.splotycode.bamboo.core.actions.Action;
+import de.splotycode.bamboo.core.actions.AbstractAction;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.actions.EventCause;
@@ -11,7 +11,7 @@ import de.splotycode.bamboo.core.i18n.I18N;
 import javax.swing.*;
 import java.awt.*;
 
-public class ExitAction extends Action {
+public class ExitAction extends AbstractAction {
 
     @Override
     public void onAction(BambooEvent event) {
