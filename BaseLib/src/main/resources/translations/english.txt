@@ -37,7 +37,7 @@ base.dialogs.filechooser.exsits.message: The Directory does not Exists
 base.dialogs.filechooser.empty.title: Invalid Path
 base.dialogs.filechooser.empty.message: The Directory needs to be empty!
 base.dialogs.opnotsupported.title: Desktop Operation Not found
-base.dialogs.opnotsupported.errordialog.message: You Operation System is not Supported
+base.dialogs.opnotsupported.message: You Operation System is not Supported
 
 #
 # Notifications
