@@ -8,7 +8,7 @@ import de.splotycode.bamboo.core.project.Explorer;
 import javax.swing.*;
 import java.io.File;
 
-public class CreateFolderExplorerAction extends ExplorerAction {
+public class CreateFolderExplorerAction extends AbstractExplorerAction {
 
     @Override
     protected void explorerAction(Explorer explorer, File file, BambooEvent event) {

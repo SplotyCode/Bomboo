@@ -9,7 +9,7 @@ import de.splotycode.bamboo.core.util.FileUtils;
 import javax.swing.*;
 import java.io.File;
 
-public class AddFileExplorerAction extends ExplorerAction {
+public class AddFileExplorerAction extends AbstractExplorerAction {
 
     @Override
     protected void explorerAction(Explorer explorer, File file, BambooEvent event) {

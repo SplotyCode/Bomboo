@@ -5,7 +5,7 @@ import de.splotycode.bamboo.core.project.Explorer;
 
 import java.io.File;
 
-public class DeleteExplorerAction extends ExplorerAction {
+public class DeleteExplorerAction extends AbstractExplorerAction {
 
     @Override
     protected void explorerAction(Explorer explorer, File file, BambooEvent event) {

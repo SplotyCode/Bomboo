@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class MailAction extends ExplorerAction {
+public class MailAction extends AbstractExplorerAction {
 
     private Desktop desktop = Desktop.getDesktop();
 

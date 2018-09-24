@@ -7,7 +7,7 @@ import de.splotycode.bamboo.core.project.Explorer;
 
 import java.io.File;
 
-public abstract class ExplorerAction extends Action {
+public abstract class AbstractExplorerAction extends Action {
 
     @Override
     public final void onAction(BambooEvent event) {

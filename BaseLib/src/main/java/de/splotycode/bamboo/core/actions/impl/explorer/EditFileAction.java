@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class EditFileAction extends ExplorerAction {
+public class EditFileAction extends AbstractExplorerAction {
 
     private Desktop desktop = Desktop.getDesktop();
 

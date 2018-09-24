@@ -3,13 +3,12 @@ package de.splotycode.bamboo.core.actions.impl.explorer;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.gui.DialogHelper;
 import de.splotycode.bamboo.core.project.Explorer;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class PrintFileAction extends ExplorerAction {
+public class PrintFileAction extends AbstractExplorerAction {
 
     private Desktop desktop = Desktop.getDesktop();
 
