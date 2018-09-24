@@ -25,7 +25,7 @@ import java.io.File;
 
 public class OldExplorerImpl implements Explorer, MouseListener  {
 
-    private static final String[] ACTIONS = new String[]{"explorer.addfile", "explorer.createfolder", "explorer.deletefile"};
+    private static final String[] ACTIONS = new String[]{"explorer.addfile", "explorer.createfolder", "explorer.deletefile", "explorer.showinfiles"};
 
     private JTree jTree = null;
     private DefaultTreeModel treeModel;

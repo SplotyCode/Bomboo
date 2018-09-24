@@ -18,6 +18,10 @@ public abstract class Action {
         return false;
     }
 
+    public String getLanguagePrefix() {
+        return "actions." + internalName() + ".";
+    }
+
     public String getDisplayName() {
         return I18N.get("actions." + internalName() + ".name");
     }

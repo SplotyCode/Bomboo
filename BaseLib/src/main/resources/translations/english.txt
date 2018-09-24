@@ -36,6 +36,8 @@ base.dialogs.filechooser.exsits.title: Invalid Path
 base.dialogs.filechooser.exsits.message: The Directory does not Exists
 base.dialogs.filechooser.empty.title: Invalid Path
 base.dialogs.filechooser.empty.message: The Directory needs to be empty!
+base.dialogs.opnotsupported.title: Desktop Operation Not found
+base.dialogs.opnotsupported.errordialog.message: You Operation System is not Supported
 
 #
 # Notifications
@@ -80,4 +82,15 @@ actions.projects.create.dialog.title: Already Exists
 actions.projects.create.dialog.message: The Project already Exists
 actions.file.reload.name: Reload Files
 actions.file.reload.description: Reload File System
-
+actions.explorer.showinfiles.name: Show In Files
+actions.explorer.showinfiles.description: Show selected File in File Explorer
+actions.explorer.openfile.name: Open File in OS
+actions.explorer.openfile.description: Open the File with Operation System
+actions.explorer.editfile.name: Edit File in OS
+actions.explorer.editfile.description: Edit the File with Operation System
+actions.explorer.mail.name: Mail File
+actions.explorer.mail.description: Mail the File with System Mail Assistant
+actions.explorer.showinbrowser.name: Browse
+actions.explorer.showinbrowser.description: Browse in System File Explorer
+actions.explorer.printfile.name: Print File
+actions.explorer.printfile.description: Print File over Operation System

@@ -30,7 +30,7 @@ import java.io.File;
 
 public class ExplorerImpl implements Explorer, MouseListener  {
 
-    private static final String[] ACTIONS = new String[]{"explorer.addfile", "explorer.createfolder", "explorer.deletefile", "file.reload"};
+    private static final String[] ACTIONS = new String[] {"explorer.addfile", "explorer.createfolder", "explorer.deletefile", "file.reload", "explorer.showinfiles", "explorer.openfile", "explorer.editfile", "explorer.printfile", "explorer.showinbrowser", "explorer.mail"};
 
     private BambooTree jTree = null;
 
