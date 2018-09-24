@@ -1,5 +1,7 @@
 package de.splotycode.bamboo.core.gui;
 
+import de.splotycode.bamboo.core.gui.components.BambooScrollPane;
+import de.splotycode.bamboo.core.gui.components.field.BambooTextArea;
 import de.splotycode.bamboo.core.i18n.I18N;
 import lombok.Getter;
 
@@ -14,13 +16,13 @@ public class DialogHelper {
     }
 
     public static void showMessage(Window window, String name, Type type) {
-        JTextArea msg = new JTextArea(I18N.get(name + ".message"));
+        BambooTextArea msg = new BambooTextArea(I18N.get(name + ".message"));
         msg.setLineWrap(true);
         msg.setColumns(30);
         msg.setEditable(false);
         msg.setWrapStyleWord(true);
 
-        JOptionPane.showMessageDialog(window, new JScrollPane(msg), I18N.get(name + ".title"), type.type);
+        JOptionPane.showMessageDialog(window, new BambooScrollPane(msg), I18N.get(name + ".title"), type.type);
     }
 
     public static void showMessageRaw(String title, String message, Type type) {
@@ -28,12 +30,14 @@ public class DialogHelper {
     }
 
     public static void showMessageRaw(Window window, String title, String message, Type type) {
-        JTextArea msg = new JTextArea(message);
+        BambooTextArea msg = new BambooTextArea(message);
+        msg.setBorder(null);
         msg.setLineWrap(true);
         msg.setColumns(30);
         msg.setEditable(false);
         msg.setWrapStyleWord(true);
-        JOptionPane.showMessageDialog(window, new JScrollPane(msg), title, type.type);
+
+        JOptionPane.showMessageDialog(window, new BambooScrollPane(msg), title, type.type);
     }
 
     public static Result showInput(String title, JComponent... components) {

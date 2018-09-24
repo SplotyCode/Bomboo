@@ -1,22 +1,23 @@
-package de.splotycode.bamboo.core.gui;
+package de.splotycode.bamboo.core.gui.components.label;
 
 import de.splotycode.bamboo.core.i18n.I18N;
 
 import javax.swing.*;
 
-public class BambooLabel extends JLabel {
+public class BambooTranslatedLabel extends BambooLabel {
 
-    public BambooLabel() {}
+    public BambooTranslatedLabel() {
+    }
 
-    public BambooLabel(String s, Icon icon, int i) {
+    public BambooTranslatedLabel(String s, Icon icon, int i) {
         super(I18N.get(s), icon, i);
     }
 
-    public BambooLabel(String s, int i) {
+    public BambooTranslatedLabel(String s, int i) {
         super(I18N.get(s), i);
     }
 
-    public BambooLabel(String s) {
+    public BambooTranslatedLabel(String s) {
         super(I18N.get(s));
     }
 
@@ -25,8 +26,9 @@ public class BambooLabel extends JLabel {
         super.setText(s.isEmpty() ? "" : I18N.get(s));
     }
 
-    public void setRawText(String s) {
+    public BambooLabel setRawText(String s) {
         super.setText(s);
+        return this;
     }
 
     public void setText(String s, String... objects) {

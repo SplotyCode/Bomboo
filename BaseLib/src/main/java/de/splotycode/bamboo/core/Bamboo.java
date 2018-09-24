@@ -1,6 +1,7 @@
 package de.splotycode.bamboo.core;
 
 import de.splotycode.bamboo.core.boot.BootLoader;
+import de.splotycode.bamboo.core.gui.ThemeHelper;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.util.Disposable;
@@ -39,8 +40,8 @@ public class Bamboo extends InitialisedOnce implements Disposable {
         loadWorkSpaces();
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::dispose, "Bamboo shutdown Thread"));
-
-        lookAndFeel();
+        //lookAndFeel();
+        ThemeHelper.setup();
         BootLoader.getBootLoader().getShowOpenedProjects().run();
     }
 

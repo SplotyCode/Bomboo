@@ -5,9 +5,17 @@ import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.EventCause;
 import de.splotycode.bamboo.core.data.ExplorerDataKeys;
+import de.splotycode.bamboo.core.gui.FontConstants;
+import de.splotycode.bamboo.core.gui.components.BambooScrollPane;
+import de.splotycode.bamboo.core.gui.components.menu.BambooPopupMenu;
+import de.splotycode.bamboo.core.gui.components.tree.BambooFileTreeRenderer;
+import de.splotycode.bamboo.core.gui.components.tree.BambooTree;
+import de.splotycode.bamboo.core.gui.components.menu.BambooMenu;
+import de.splotycode.bamboo.core.gui.components.menu.BambooMenuItem;
+import de.splotycode.bamboo.core.gui.components.tree.BambooTreeRenderer;
+import de.splotycode.bamboo.core.gui.components.tree.FileNode;
 import de.splotycode.bamboo.core.project.*;
 import de.splotycode.bamboo.core.util.ActionUtils;
-import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 import de.splotycode.bamboo.core.yaml.YamlFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,21 +23,18 @@ import lombok.Getter;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.Enumeration;
 
 public class ExplorerImpl implements Explorer, MouseListener  {
 
     private static final String[] ACTIONS = new String[]{"explorer.addfile", "explorer.createfolder", "explorer.deletefile", "file.reload"};
 
-    private JTree jTree = null;
+    private BambooTree jTree = null;
 
-    private JScrollPane scrollPane = new JScrollPane();
+    private BambooScrollPane scrollPane = new BambooScrollPane();
 
     @Getter private WorkSpace workSpace;
 
@@ -66,7 +71,9 @@ public class ExplorerImpl implements Explorer, MouseListener  {
             root.add(node);
             createChildren(project.workSpace(), node, project);
         }
-        jTree = new JTree(root);
+        jTree = new BambooTree(root);
+        jTree.setFont(FontConstants.getSegoe(16));
+        jTree.setCellRenderer(new BambooFileTreeRenderer());
         jTree.setRootVisible(false);
         jTree.addMouseListener(this);
 
@@ -81,7 +88,7 @@ public class ExplorerImpl implements Explorer, MouseListener  {
 
     @Override
     public File selectedFile() {
-        return selectedFileNode().file;
+        return selectedFileNode().getFile();
     }
 
     public FileNode selectedFileNode() {
@@ -95,33 +102,19 @@ public class ExplorerImpl implements Explorer, MouseListener  {
         configuration.save();
     }
 
-    @AllArgsConstructor
-    @Data
-    public class FileNode {
-
-        private File file;
-        private String displayName;
-        private Project project;
-
-        @Override
-        public String toString() {
-            return displayName;
-        }
-    }
-
     @Override
     public void mouseClicked(MouseEvent event) {
         int row = jTree.getClosestRowForLocation(event.getX(), event.getY());
         jTree.setSelectionRow(row);
         FileNode node = selectedFileNode();
-        File selectedFile = node.file;
+        File selectedFile = node.getFile();
         if (SwingUtilities.isRightMouseButton(event)) {
-            JPopupMenu menu = new JPopupMenu();
+            BambooPopupMenu menu = new BambooPopupMenu();
 
             if (!selectedFile.isDirectory()) {
-                JMenu openWith = new JMenu("Open With");
-                for (LanguageDescriptor descriptor : node.project.getDescriptorsByFile(selectedFile)) {
-                    JMenuItem item = new JMenuItem(descriptor.getLanguage().name());
+                BambooMenu openWith = new BambooMenu("Open With");
+                for (LanguageDescriptor descriptor : node.getProject().getDescriptorsByFile(selectedFile)) {
+                    BambooMenuItem item = new BambooMenuItem(descriptor.getLanguage().name());
                     item.addActionListener(actionEvent -> {
                         workSpace.openFile(selectedFile, descriptor);
                     });
@@ -132,7 +125,7 @@ public class ExplorerImpl implements Explorer, MouseListener  {
 
             for (String actionName : ACTIONS) {
                 Action action = ActionManager.getInstance().getAction(actionName);
-                JMenuItem item = new JMenuItem(action.getDisplayName());
+                BambooMenuItem item = new BambooMenuItem(action.getDisplayName());
                 item.setToolTipText(action.getDescription());
                 item.addActionListener(itemEvent -> {
                     BambooEvent bambooEvent = ActionUtils.convertEvent(itemEvent, workSpace, EventCause.EXPLORER);

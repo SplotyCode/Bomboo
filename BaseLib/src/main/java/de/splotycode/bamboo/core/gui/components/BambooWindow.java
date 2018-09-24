@@ -1,4 +1,4 @@
-package de.splotycode.bamboo.core.gui;
+package de.splotycode.bamboo.core.gui.components;
 
 import de.splotycode.bamboo.core.i18n.I18N;
 
@@ -6,6 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BambooWindow extends JFrame {
+
+    public BambooWindow() throws HeadlessException {
+        setRootPane(new BambooRootPane());
+    }
 
     @Override
     public void setTitle(String s) {
@@ -48,6 +52,12 @@ public class BambooWindow extends JFrame {
     public void closeQuietly() {
         setVisible(false);
         dispose();
+    }
+
+    public void makeWindow() {
+        pack();
+        setVisible(true);
+        toFront();
     }
 
 }

@@ -1,4 +1,4 @@
-package de.splotycode.bamboo.core.gui;
+package de.splotycode.bamboo.core.gui.components.button;
 
 import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;

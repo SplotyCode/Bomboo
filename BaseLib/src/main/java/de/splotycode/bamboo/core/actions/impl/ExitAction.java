@@ -6,8 +6,6 @@ import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.actions.EventCause;
 import de.splotycode.bamboo.core.boot.BootLoader;
-import de.splotycode.bamboo.core.gui.BambooWindow;
-import de.splotycode.bamboo.core.gui.DialogHelper;
 import de.splotycode.bamboo.core.i18n.I18N;
 
 import javax.swing.*;

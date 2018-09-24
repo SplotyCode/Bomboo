@@ -1,11 +1,10 @@
 package de.splotycode.bamboo.gui.workspace;
 
-import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.actions.EventCause;
-import de.splotycode.bamboo.core.gui.BambooWindow;
+import de.splotycode.bamboo.core.gui.components.BambooWindow;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.project.WorkspaceWindow;
 
@@ -44,5 +43,10 @@ public class WorkspaceGui extends BambooWindow implements WorkspaceWindow {
     @Override
     public void closeWindow() {
         closeQuietly();
+    }
+
+    @Override
+    public BambooWindow getWindow() {
+        return this;
     }
 }

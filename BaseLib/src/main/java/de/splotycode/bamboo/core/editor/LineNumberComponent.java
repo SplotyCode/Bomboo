@@ -1,5 +1,8 @@
 package de.splotycode.bamboo.core.editor;
 
+import de.splotycode.bamboo.core.gui.ColorConstants;
+import de.splotycode.bamboo.core.util.ui.DrawUtils;
+
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
@@ -26,19 +29,17 @@ public class LineNumberComponent extends JComponent {
         int max = editor.getLineCount();
         if (getGraphics() == null) return;
 
-        int width = getGraphics().getFontMetrics().stringWidth(String.valueOf(max)) + 2 * HORIZONTAL_PADDING;
+        int width = getGraphics().getFontMetrics().stringWidth(String.valueOf(max)) + 3 + 2 * HORIZONTAL_PADDING;
 
         JComponent c = (JComponent) getParent();
 
-        if (c == null) {//not within a container
-
+        if (c == null) {
             return;
-
         }
 
         Dimension dimension = c.getPreferredSize();
 
-        if (c instanceof JViewport) {//do some climbing up the component tree to get the main JScrollPane view
+        if (c instanceof JViewport) {
             JViewport view = (JViewport) c;
             Component parent = view.getParent();
             if (parent != null && parent instanceof JScrollPane) {
@@ -64,17 +65,19 @@ public class LineNumberComponent extends JComponent {
 
     @Override
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
-
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = DrawUtils.get2dGraphics(g);
+        super.paintComponent(g2d);
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g.setColor(getBackground());
+        g.setColor(ColorConstants.COLOR_BACKGROUND);
 
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
-        g.setColor(getForeground());
+        g.setColor(ColorConstants.COLOR_OUTLINE);
+        g.fillRect(getWidth() - 2, 0, getWidth(), getHeight());
+
+        g.setColor(Color.white);
 
         for (int i = 0; i < editor.getLineCount(); i++) {
 
@@ -82,7 +85,7 @@ public class LineNumberComponent extends JComponent {
             String text = String.valueOf(i + 1);
 
             int yPosition = rect.y + rect.height - VERTICAL_PADDING;
-            int xPosition = HORIZONTAL_PADDING;//default to left alignment
+            int xPosition = HORIZONTAL_PADDING;
 
             switch (alignment) {
                 case RIGHT_ALIGNMENT:

@@ -18,6 +18,9 @@ workspace.close.exit: Exit
 workspace.close.cancel: Cancel
 workspace.load.alreadyopen.title: Workspace is already open
 workspace.load.alreadyopen.message: The Workspace is already a loaded Workspace
+workspace.nodescriptor.title: Could not open File
+workspace.nodescriptor.message: No Language Descriptor found for this File
+
 #
 # Base
 #

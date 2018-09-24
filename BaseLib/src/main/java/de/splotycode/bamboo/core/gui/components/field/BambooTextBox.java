@@ -1,12 +1,14 @@
-package de.splotycode.bamboo.core.gui;
+package de.splotycode.bamboo.core.gui.components.field;
+
+import de.splotycode.bamboo.core.gui.components.label.BambooTranslatedLabel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class BambooTextBox extends JPanel {
 
-    private BambooLabel label = new BambooLabel();
-    private JTextField field = new JTextField();
+    private BambooTranslatedLabel label = new BambooTranslatedLabel();
+    private BambooField field = new BambooField();
 
     public BambooTextBox(String name) {
         label.setText(name);

@@ -5,6 +5,10 @@ import com.google.common.collect.HashBiMap;
 import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.editor.Editor;
+import de.splotycode.bamboo.core.gui.ColorConstants;
+import de.splotycode.bamboo.core.gui.DialogHelper;
+import de.splotycode.bamboo.core.gui.components.BambooSplitPane;
+import de.splotycode.bamboo.core.gui.components.BambooTabbedPane;
 import de.splotycode.bamboo.core.notification.NotificationManager;
 import de.splotycode.bamboo.core.util.FileUtils;
 import lombok.Getter;
@@ -24,9 +28,9 @@ public class WorkSpace {
     @Getter private WorkspaceWindow window;
     @Getter private Explorer explorer;
 
-    @Getter private JSplitPane mainSplit;
+    @Getter private BambooSplitPane mainSplit;
 
-    @Getter private JTabbedPane editorTabs = new JTabbedPane();
+    @Getter private BambooTabbedPane editorTabs = new BambooTabbedPane();
 
     @Getter private BiMap<Editor, File> editors = HashBiMap.create();
 
@@ -36,7 +40,8 @@ public class WorkSpace {
         window = BootLoader.getBootLoader().getGenerateWindow().apply(this);
         explorer = BootLoader.getBootLoader().getGenerateExplorer().apply(this);
 
-        mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, explorer.getComponent(), editorTabs);
+        mainSplit = new BambooSplitPane(JSplitPane.HORIZONTAL_SPLIT, explorer.getComponent(), editorTabs);
+        mainSplit.setDividerLocation(0.15);
         window.add(mainSplit);
     }
 
@@ -45,7 +50,12 @@ public class WorkSpace {
     }
 
     public void openFile(File file) {
-        openFile(file, getProjectBySomeFile(file).getDescriptorByFile(file));
+        LanguageDescriptor descriptor = getProjectBySomeFile(file).getDescriptorByFile(file);
+        if (descriptor == null) {
+            DialogHelper.showMessage(window.getWindow(), "workspace.nodescriptor", DialogHelper.Type.WARNING);
+            return;
+        }
+        openFile(file, descriptor);
     }
 
     public void openFile(File file, LanguageDescriptor descriptor) {

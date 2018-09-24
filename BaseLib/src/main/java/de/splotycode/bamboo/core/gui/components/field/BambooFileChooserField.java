@@ -1,24 +1,30 @@
-package de.splotycode.bamboo.core.gui;
+package de.splotycode.bamboo.core.gui.components.field;
 
+import de.splotycode.bamboo.core.gui.BambooFileView;
+import de.splotycode.bamboo.core.gui.DialogHelper;
+import de.splotycode.bamboo.core.gui.components.label.BambooTranslatedLabel;
 import de.splotycode.bamboo.core.i18n.I18N;
 import lombok.Getter;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.filechooser.FileView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class FileChooserField extends JPanel implements ActionListener {
+public class BambooFileChooserField extends JPanel implements ActionListener {
 
-    private BambooLabel label = new BambooLabel();
+    private BambooTranslatedLabel label = new BambooTranslatedLabel();
     private JFileChooser fileChooser = new JFileChooser();
-    private JTextField field = new JTextField();
+    private BambooField field = new BambooField();
     private JButton button = new JButton();
     private String name;
     @Getter private File file;
@@ -35,11 +41,11 @@ public class FileChooserField extends JPanel implements ActionListener {
 
     private static final File USER_HOME = new File(System.getProperty("user.home"));
 
-    public FileChooserField(String name, boolean directors, Checks... checks) {
+    public BambooFileChooserField(String name, boolean directors, Checks... checks) {
         this(name, USER_HOME, file -> {}, directors, checks);
     }
 
-    public FileChooserField(String name, File file, Consumer<File> consumer, boolean directors, Checks... checks) {
+    public BambooFileChooserField(String name, File file, Consumer<File> consumer, boolean directors, Checks... checks) {
         this.checks.addAll(Arrays.asList(checks));
         this.directorys = directors;
         this.consumer = consumer;
@@ -65,6 +71,7 @@ public class FileChooserField extends JPanel implements ActionListener {
         fileChooser.setDialogTitle(I18N.get("base.select") + I18N.get(name));
         fileChooser.setDragEnabled(true);
         fileChooser.setFileHidingEnabled(false);
+        fileChooser.setFileView(BambooFileView.getInstance());
         if (file != null)
             fileChooser.setSelectedFile(file);
         if (directorys) {
@@ -116,4 +123,5 @@ public class FileChooserField extends JPanel implements ActionListener {
         revalidate();
         repaint();
     }
+
 }

@@ -5,9 +5,9 @@ import de.splotycode.bamboo.core.actions.Action;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.boot.BootLoader;
-import de.splotycode.bamboo.core.gui.BambooTextBox;
+import de.splotycode.bamboo.core.gui.components.field.BambooTextBox;
 import de.splotycode.bamboo.core.gui.DialogHelper;
-import de.splotycode.bamboo.core.gui.FileChooserField;
+import de.splotycode.bamboo.core.gui.components.field.BambooFileChooserField;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.util.FileUtils;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
@@ -22,7 +22,7 @@ public class CreateWorkSpaceAction extends Action {
 
     @Override
     public void onAction(BambooEvent event) {
-        FileChooserField destination = new FileChooserField("workspace.create.filechooser", true, FileChooserField.Checks.FOLDER_MUST_EMPTY);
+        BambooFileChooserField destination = new BambooFileChooserField("workspace.create.filechooser", true, BambooFileChooserField.Checks.FOLDER_MUST_EMPTY);
         BambooTextBox name = new BambooTextBox("workspace.create.name");
 
         DialogHelper.Result result;

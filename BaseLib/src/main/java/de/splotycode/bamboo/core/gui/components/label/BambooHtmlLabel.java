@@ -1,8 +1,9 @@
-package de.splotycode.bamboo.core.gui;
+package de.splotycode.bamboo.core.gui.components.label;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class BambooHtmlLabel extends JLabel {
+public class BambooHtmlLabel extends BambooLabel {
 
     public BambooHtmlLabel(String s, Icon icon, int i) {
         super("<html>" + s + "</html>", icon, i);

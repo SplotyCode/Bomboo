@@ -1,28 +1,29 @@
 package de.splotycode.bamboo.core.editor;
 
+import de.splotycode.bamboo.core.gui.components.BambooScrollPane;
+import de.splotycode.bamboo.core.gui.components.field.BambooTextArea;
 import de.splotycode.bamboo.core.project.LanguageDescriptor;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.util.Disposable;
 import lombok.Getter;
-import org.apache.commons.io.FileUtils;
 
-import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Editor extends JTextArea implements Disposable, DocumentListener  {
+public class Editor extends BambooTextArea implements Disposable, DocumentListener  {
 
     @Getter private File file;
-    private JScrollPane scrollPane = new JScrollPane(this);
+    private BambooScrollPane scrollPane = new BambooScrollPane(this);
     @Getter private LanguageDescriptor descriptor;
     private WorkSpace workSpace;
 
     private LineNumberComponent lineNumbers = new LineNumberComponent(this);
 
     public Editor(File file, LanguageDescriptor descriptor, WorkSpace workSpace) {
+        super("Loading...");
         this.file = file;
         this.workSpace = workSpace;
         this.descriptor = descriptor;

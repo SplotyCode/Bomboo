@@ -5,12 +5,13 @@ import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.actions.EventCause;
-import de.splotycode.bamboo.core.data.DataKey;
 import de.splotycode.bamboo.core.data.WorkspaceDataKeys;
-import de.splotycode.bamboo.core.gui.BambooActionButton;
-import de.splotycode.bamboo.core.gui.BambooHtmlLabel;
+import de.splotycode.bamboo.core.gui.components.label.BambooLabel;
+import de.splotycode.bamboo.core.gui.components.button.BambooActionButton;
+import de.splotycode.bamboo.core.gui.components.label.BambooHtmlLabel;
+import de.splotycode.bamboo.core.gui.components.BambooPanel;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
-import de.splotycode.bamboo.core.gui.BambooWindow;
+import de.splotycode.bamboo.core.gui.components.BambooWindow;
 import de.splotycode.bamboo.gui.listener.WorkspaceSelectCloseListener;
 import lombok.Getter;
 
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class WorkspaceSelect extends BambooWindow implements WorkspaceSelectCloseListener {
 
-    private static JPanel workspaces = new JPanel();
+    private static BambooPanel workspaces = new BambooPanel();
     @Getter private static boolean shown;
 
     @Getter private static List<WorkspaceSelectCloseListener> closeListeners = new ArrayList<>();
@@ -34,6 +35,7 @@ public class WorkspaceSelect extends BambooWindow implements WorkspaceSelectClos
     }
 
     public WorkspaceSelect() {
+        super();
         shown = true;
         closeListeners.add(this);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -48,7 +50,7 @@ public class WorkspaceSelect extends BambooWindow implements WorkspaceSelectClos
         setLayout(new GridLayout(1, 2));
         add(workspaces);
         reloadWorkspaces();
-        JPanel right = new JPanel();
+        BambooPanel right = new BambooPanel();
         right.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         right.add(new BambooActionButton("splash.button.new", CommonAction.CREATE_WORKSPACE, EventCause.WORKSPACE_SELECT_SCREEN, null), gbc);
@@ -62,10 +64,10 @@ public class WorkspaceSelect extends BambooWindow implements WorkspaceSelectClos
         workspaces.removeAll();
         workspaces.setLayout(new BoxLayout(workspaces, BoxLayout.Y_AXIS));
         for (SimpleProjectInformation information : Bamboo.getInstance().getAllWorkSpaces()) {
-            JPanel project = new JPanel();
+            BambooPanel project = new BambooPanel();
             project.setLayout(new BoxLayout(project, BoxLayout.Y_AXIS));
             project.add(new BambooHtmlLabel("<b>" + information.getName() + "</b>"));
-            project.add(new JLabel(information.getBambooFile().getAbsolutePath()));
+            project.add(new BambooLabel(information.getBambooFile().getAbsolutePath()));
             project.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent mouseEvent) {
