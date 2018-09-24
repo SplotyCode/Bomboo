@@ -32,7 +32,7 @@ public class WorkSpace {
 
     @Getter private BambooTabbedPane editorTabs = new BambooTabbedPane();
 
-    @Getter private BiMap<Editor, File> editors = HashBiMap.create();
+    @Getter private HashMap<File, Editor> editors = new HashMap<>();
 
     public WorkSpace(SimpleProjectInformation information) {
         this.information = information;
@@ -59,11 +59,11 @@ public class WorkSpace {
     }
 
     public void openFile(File file, LanguageDescriptor descriptor) {
-        if (editors.inverse().containsKey(file)) {
-            editorTabs.getModel().setSelectedIndex(editorTabs.indexOfComponent(editors.inverse().get(file).getComponent()));
+        if (editors.containsKey(file)) {
+            editorTabs.getModel().setSelectedIndex(editorTabs.indexOfComponent(editors.get(file).getComponent()));
         } else {
             Editor editor = new Editor(file, descriptor, this);
-            editors.put(editor, file);
+            editors.put(file, editor);
             editorTabs.addTab(file.getName(), editor.getComponent());
         }
     }
