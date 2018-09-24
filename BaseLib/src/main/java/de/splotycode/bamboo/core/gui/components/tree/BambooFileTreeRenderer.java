@@ -1,5 +1,6 @@
 package de.splotycode.bamboo.core.gui.components.tree;
 
+import de.splotycode.bamboo.core.editor.Editor;
 import de.splotycode.bamboo.core.gui.BambooFileView;
 
 import javax.swing.*;
@@ -19,9 +20,14 @@ public class BambooFileTreeRenderer extends BambooTreeRenderer {
             if (icon instanceof ImageIcon) {
                 ((ImageIcon) icon).setImage(((ImageIcon) icon).getImage().getScaledInstance(getFont().getSize(), getFont().getSize(), Image.SCALE_DEFAULT));
             }
+            Editor editor = node.getProject().getWorkSpace().getEditorMap().get(node.getFile());
+            if (editor != null && editor.hasChanged()) {
+                renderer.setForeground(Color.red);
+            } else {
+                renderer.setForeground(Color.white);
+            }
             renderer.setIcon(icon);
         }
-        renderer.repaint();
         return renderer;
     }
 }

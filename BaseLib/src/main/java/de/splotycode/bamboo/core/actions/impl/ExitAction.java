@@ -7,6 +7,7 @@ import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.actions.EventCause;
 import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.i18n.I18N;
+import de.splotycode.bamboo.core.project.WorkSpace;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,12 +22,10 @@ public class ExitAction extends AbstractAction {
             } else {
                 BootLoader.getBootLoader().getCloseSelectWorkspace().run();
             }
-        }
-        //TODO check if workspace select is open
-        else if (Bamboo.getInstance().getOpenProjects().size() < 2 && !BootLoader.getBootLoader().getSelectWorkspaceOpen().get()) {
+        } else if (event.getCause() != EventCause.WORKSPACE_CLOSE || (Bamboo.getInstance().getOpenProjects().size() < 2 && !BootLoader.getBootLoader().getSelectWorkspaceOpen().get())) {
             showCloseDialog(event.getWindow());
         } else {
-            event.getWorkSpace().close();
+            event.getWorkSpace().destroy();
         }
     }
 
@@ -42,6 +41,7 @@ public class ExitAction extends AbstractAction {
                 options,
                 options[0]);
         if (result == JOptionPane.YES_OPTION) {
+            Bamboo.getInstance().destroy();
             System.exit(0);
         }
     }

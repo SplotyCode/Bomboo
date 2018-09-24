@@ -8,7 +8,7 @@ public class CloseWorkspaceAction extends AbstractAction {
 
     @Override
     public void onAction(BambooEvent event) {
-        event.getWorkSpace().close();
+        event.getWorkSpace().destroy();
 
         if (!BootLoader.getBootLoader().getSelectWorkspaceOpen().get()) {
             BootLoader.getBootLoader().getShowOpenedProjects().run();
@@ -19,4 +19,5 @@ public class CloseWorkspaceAction extends AbstractAction {
     public String internalName() {
         return "file.workspace.close";
     }
+
 }

@@ -5,9 +5,12 @@ import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.editor.Editor;
 import de.splotycode.bamboo.core.gui.DialogHelper;
+import de.splotycode.bamboo.core.gui.components.BambooEditorPane;
 import de.splotycode.bamboo.core.gui.components.BambooSplitPane;
 import de.splotycode.bamboo.core.gui.components.BambooTabbedPane;
+import de.splotycode.bamboo.core.i18n.I18N;
 import de.splotycode.bamboo.core.notification.NotificationManager;
+import de.splotycode.bamboo.core.util.Destroyable;
 import de.splotycode.bamboo.core.util.FileUtils;
 import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
@@ -18,7 +21,7 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 
-public class WorkSpace {
+public class WorkSpace implements Destroyable {
 
     @Getter private NotificationManager notifications;
     @Getter private SimpleProjectInformation information;
@@ -30,7 +33,7 @@ public class WorkSpace {
 
     @Getter private BambooSplitPane mainSplit;
 
-    @Getter private BambooTabbedPane editorTabs = new BambooTabbedPane();
+    @Getter private BambooEditorPane editorTabs = new BambooEditorPane(this);
 
     @Getter private HashMap<File, Editor> editorMap = new HashMap<>();
 
@@ -68,6 +71,7 @@ public class WorkSpace {
             editorMap.put(file, editor);
             editorTabMap.put(editor.getComponent(), editor);
             editorTabs.addTab(file.getName(), editor.getComponent());
+            editorTabs.setSelectedComponent(editor.getComponent());
         }
     }
 
@@ -115,7 +119,23 @@ public class WorkSpace {
         return null;
     }
 
-    public void close() {
+    @Override
+    public void destroy() {
+        if (getEditors().stream().anyMatch(Editor::hasChanged)) {
+            Object[] options = {I18N.get("shutdown.yes"),
+                    I18N.get("shutdown.no")};
+            int result = JOptionPane.showOptionDialog(window.getWindow(),
+                    I18N.get("shutdown.message"),
+                    I18N.get("shutdown.title"),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (result == JOptionPane.YES_OPTION) {
+                getEditors().forEach(Editor::save);
+            }
+        }
         Bamboo.getInstance().getOpenProjects().remove(this);
         explorer.saveExpanded();
         window.closeWindow();
@@ -129,6 +149,11 @@ public class WorkSpace {
         Component component = editorTabs.getSelectedComponent();
         if (component == null) return null;
         return editorTabMap.get(component);
+    }
+
+    public void triggerFileEditedChanged() {
+        explorer.getComponent().repaint();
+        editorTabs.repaint();
     }
 
 }

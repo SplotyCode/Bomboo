@@ -86,14 +86,12 @@ public class OldExplorerImpl implements Explorer, MouseListener  {
                     DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file.getName());
                     node.add(fileNode);
                 }
-                treeModel.reload();
-                jTree.updateUI();
+                jTree.repaint();
             }
             @Override public void treeCollapsed(TreeExpansionEvent treeExpansionEvent) {}
         });
         scrollPane.getViewport().add(jTree);
-        treeModel.reload();
-        jTree.updateUI();
+        jTree.repaint();
 
         /* Workaround for SplitPane */
         jTree.setMinimumSize(new Dimension());

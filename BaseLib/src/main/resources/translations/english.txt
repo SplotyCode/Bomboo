@@ -54,6 +54,14 @@ menubar.file: File
 menubar.edit: Edit
 
 #
+# Shutdown
+#
+shutdown.title: Save Changes?
+shutdown.message: Do you want to save the changes you made?
+shutdown.yes: Save
+shutdown.no: Discard Changes
+
+#
 # Actions
 #
 actions.file.workspace.create.name: Create Workspace

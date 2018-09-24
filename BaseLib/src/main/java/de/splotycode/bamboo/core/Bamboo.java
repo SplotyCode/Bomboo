@@ -1,25 +1,27 @@
 package de.splotycode.bamboo.core;
 
 import de.splotycode.bamboo.core.boot.BootLoader;
+import de.splotycode.bamboo.core.editor.Editor;
 import de.splotycode.bamboo.core.gui.ThemeHelper;
+import de.splotycode.bamboo.core.i18n.I18N;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.project.WorkSpace;
-import de.splotycode.bamboo.core.util.Disposable;
+import de.splotycode.bamboo.core.util.Destroyable;
 import de.splotycode.bamboo.core.util.init.InitialisedOnce;
 import de.splotycode.bamboo.core.yaml.YamlConfiguration;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.omg.SendingContext.RunTime;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Bamboo extends InitialisedOnce implements Disposable {
+public class Bamboo extends InitialisedOnce implements Destroyable {
 
     @Getter private static Bamboo instance = new Bamboo();
 
@@ -39,7 +41,9 @@ public class Bamboo extends InitialisedOnce implements Disposable {
         }
         loadWorkSpaces();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(this::dispose, "Bamboo shutdown Thread"));
+        /* TODO: Can not show Windows in Shut down Thread */
+        //Runtime.getRuntime().addShutdownHook(new Thread(this::destroy, "Bamboo shutdown Thread"));
+
         //lookAndFeel();
         ThemeHelper.setup();
         BootLoader.getBootLoader().getShowOpenedProjects().run();
@@ -61,16 +65,24 @@ public class Bamboo extends InitialisedOnce implements Disposable {
         }
     }
 
-    public List<File> getProjectFiles() {
+    public List<File> getWorkspaceFiles() {
         List<File> projectFiles = new ArrayList<>();
         for (SimpleProjectInformation information : allWorkSpaces)
             projectFiles.add(information.getBambooFile());
         return projectFiles;
     }
 
-    @Override
-    public void dispose() {
-        for (WorkSpace workSpace : new ArrayList<>(openProjects))
-            workSpace.close();
+    private Collection<Editor> getAllEditors() {
+        List<Editor> list = new ArrayList<>();
+        for (WorkSpace workSpace : openProjects)
+            list.addAll(workSpace.getEditors());
+        return list;
     }
+
+    @Override
+    public void destroy() {
+        for (WorkSpace workSpace : new ArrayList<>(openProjects))
+            workSpace.destroy();
+    }
+
 }

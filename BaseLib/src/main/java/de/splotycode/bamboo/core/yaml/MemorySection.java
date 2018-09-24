@@ -3,6 +3,7 @@ package de.splotycode.bamboo.core.yaml;
 import java.util.*;
 
 public class MemorySection implements ConfigurationSection {
+
     protected final Map<String, Object> map = new LinkedHashMap<String, Object>();
     private final Configuration root;
     private final ConfigurationSection parent;
