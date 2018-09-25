@@ -1,7 +1,11 @@
 package de.splotycode.bamboo.core.data;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.HashMap;
 
+@EqualsAndHashCode
 public class DataFactory {
 
     private HashMap<String, Object> data = new HashMap<>();
