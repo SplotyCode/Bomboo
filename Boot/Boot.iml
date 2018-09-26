@@ -11,14 +11,15 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Html" />
     <orderEntry type="module" module-name="BaseLib" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.8" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.19" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:21.0" level="project" />
     <orderEntry type="module" module-name="Gui" />
-    <orderEntry type="module" module-name="Html" />
-    <orderEntry type="module" module-name="CSS" />
+    <orderEntry type="library" name="Maven: de.splotycode.bomboo:Html:1.0" level="project" />
+    <orderEntry type="library" name="Maven: de.splotycode.bomboo:CSS:1.0" level="project" />
     <orderEntry type="module" module-name="DefaultEditors" />
   </component>
 </module>

@@ -78,8 +78,8 @@ public class LineNumberComponent extends JComponent {
         g.fillRect(getWidth() - 2, 0, getWidth(), getHeight());
 
         g.setColor(Color.white);
-
-        for (int i = 0; i < editor.getLineCount(); i++) {
+        int lines = editor.getLineCount();
+        for (int i = 0; i < lines; i++) {
 
             Rectangle rect = getLineRect(i);
             String text = String.valueOf(i + 1);

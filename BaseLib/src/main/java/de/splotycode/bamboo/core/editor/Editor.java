@@ -14,7 +14,7 @@ import lombok.Getter;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Editor extends BambooTextArea implements Destroyable, DocumentListener, MouseListener, MouseMotionListener, KeyListener  {
+public class Editor extends JTextPane implements Destroyable, DocumentListener, MouseListener, MouseMotionListener, KeyListener  {
 
     @Getter private File file;
     private BambooScrollPane scrollPane = new BambooScrollPane(this);
@@ -39,7 +39,7 @@ public class Editor extends BambooTextArea implements Destroyable, DocumentListe
     private JPopupMenu quickfixMenu = new JPopupMenu();
 
     public Editor(File file, LanguageDescriptor descriptor, WorkSpace workSpace) {
-        super("Loading...");
+        setText("Loading...");
         setEditable(false);
         this.file = file;
         this.workSpace = workSpace;
@@ -209,6 +209,31 @@ public class Editor extends BambooTextArea implements Destroyable, DocumentListe
             }
         } catch (BadLocationException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public void addHightlight(int start, int end, Color color) {
+        int delta = end - start;
+        SimpleAttributeSet set = new SimpleAttributeSet();
+        StyleConstants.setForeground(set, color);
+        getStyledDocument().setParagraphAttributes(start, delta, set, false);
+    }
+
+    public int getLineCount() {
+        Element var1 = this.getDocument().getDefaultRootElement();
+        return var1.getElementCount();
+    }
+
+    public int getLineStartOffset(int var1) {
+        int var2 = this.getLineCount();
+        if (var1 < 0) {
+            throw new IllegalArgumentException("Negative line");
+        } else if (var1 >= var2) {
+            throw new IllegalArgumentException("No such line");
+        } else {
+            Element var3 = this.getDocument().getDefaultRootElement();
+            Element var4 = var3.getElement(var1);
+            return var4.getStartOffset();
         }
     }
 }
