@@ -2,6 +2,7 @@ package de.splotycode.bamboo;
 
 import de.splotycode.bamboo.core.editor.AbstractTextDescriptor;
 import de.splotycode.bamboo.core.editor.Editor;
+import de.splotycode.bamboo.core.editor.error.Inspection;
 import de.splotycode.bamboo.core.project.Language;
 import de.splotycode.bamboo.core.project.Project;
 import de.splotycode.bamboo.core.project.WorkSpace;
@@ -20,6 +21,11 @@ public class DefaultTextEditor extends AbstractTextDescriptor {
     }
 
     @Override
+    public void onTextChange(Editor editor) {
+
+    }
+
+    @Override
     public String[] fileTypes() {
         return new String[] {"txt", "log", "json", "html", "htm"};
     }
@@ -27,5 +33,10 @@ public class DefaultTextEditor extends AbstractTextDescriptor {
     @Override
     public Language getLanguage() {
         return Language.TEXT;
+    }
+
+    @Override
+    public Inspection[] getInspections() {
+        return new Inspection[0];
     }
 }

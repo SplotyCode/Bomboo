@@ -1,6 +1,7 @@
 package de.splotycode.bamboo.core.project;
 
 import de.splotycode.bamboo.core.editor.Editor;
+import de.splotycode.bamboo.core.editor.error.Inspection;
 import de.splotycode.bamboo.core.yaml.Configuration;
 
 import java.io.File;
@@ -15,8 +16,12 @@ public interface LanguageDescriptor {
 
     void prepairEditor(Editor editor, WorkSpace workSpace);
 
+    void onTextChange(Editor editor);
+
     String[] fileTypes();
 
     Language getLanguage();
+
+    Inspection[] getInspections();
 
 }

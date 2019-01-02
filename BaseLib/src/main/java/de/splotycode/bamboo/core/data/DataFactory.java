@@ -26,6 +26,10 @@ public class DataFactory {
         data.putIfAbsent(key.name, obj);
     }
 
+    public <T> void forePutData(DataKey<T> key, T obj) {
+        data.put(key.name, obj);
+    }
+
     public <T> void putData(String name, DataKey<T> key, T obj) {
         data.putIfAbsent(name, obj);
     }

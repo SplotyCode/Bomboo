@@ -1,7 +1,9 @@
 package de.splotycode.bamboo.core.editor;
 
+import de.splotycode.bamboo.core.data.DataFactory;
 import de.splotycode.bamboo.core.editor.error.CodeWarning;
 import de.splotycode.bamboo.core.editor.error.ErrorType;
+import de.splotycode.bamboo.core.editor.error.Inspection;
 import de.splotycode.bamboo.core.editor.error.QuickFix;
 import de.splotycode.bamboo.core.gui.components.BambooScrollPane;
 import de.splotycode.bamboo.core.gui.components.field.BambooTextArea;
@@ -24,6 +26,8 @@ import java.util.List;
 
 public class Editor extends JTextPane implements Destroyable, DocumentListener, MouseListener, MouseMotionListener, KeyListener  {
 
+    @Getter private DataFactory dataFactory = new DataFactory();
+
     @Getter private File file;
     private BambooScrollPane scrollPane = new BambooScrollPane(this);
     @Getter private LanguageDescriptor descriptor;
@@ -38,9 +42,15 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
     private List<CodeWarning> warnings = new ArrayList<>();
     private JPopupMenu quickfixMenu = new JPopupMenu();
 
+    private AttributeSet defaultAttributes = getParagraphAttributes();
+
     public Editor(File file, LanguageDescriptor descriptor, WorkSpace workSpace) {
         setText("Loading...");
         setEditable(false);
+        setBackground(Color.decode("#333336"));
+        setCaretColor(Color.decode("#B8C1BD"));
+        setForeground(Color.decode("#B8C1BD"));
+        setFont(new Font("Fira Code", getFont().getStyle(), 14));
         this.file = file;
         this.workSpace = workSpace;
         this.descriptor = descriptor;
@@ -59,6 +69,7 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
         setText(diskState);
         lineNumbers.adjustWidth();
         descriptor.prepairEditor(this, workSpace);
+        updateDocument();
         setEditable(true);
     }
 
@@ -87,7 +98,7 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
     public void addWarning(CodeWarning warning) {
         warnings.add(warning);
         try {
-            getHighlighter().addHighlight(warning.getStart(), warning.getTo(), new UnderlineHighlightPainter());
+            getHighlighter().addHighlight(warning.getStart(), warning.getTo(), new UnderlineHighlightPainter(warning.getType() == ErrorType.ERROR ? Color.red : Color.yellow));
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
@@ -104,6 +115,10 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
         if (hasChanged() != lastChanged) {
             workSpace.triggerFileEditedChanged();
         }
+        descriptor.onTextChange(this);
+        for (Inspection inspection : descriptor.getInspections()) {
+            inspection.inspect(this);
+        }
         lastChanged = hasChanged();
     }
 
@@ -119,7 +134,7 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
 
     @Override
     public void changedUpdate(DocumentEvent event) {
-        updateDocument();
+        //updateDocument();
     }
 
     @Override
@@ -159,13 +174,9 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
 
     @Override
     public String getToolTipText(MouseEvent event) {
-        System.out.println("a1");
         int index = viewToModel(event.getPoint());
-        System.out.println("index: " + index);
         for (CodeWarning warning : warnings) {
-            System.out.println("debug: " + warning.getStart() + " " + warning.getTo());
             if (warning.getStart() <= index && warning.getTo() >= index) {
-                System.out.println("a");
                 return warning.getMessage();
             }
         }
@@ -212,11 +223,23 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
         }
     }
 
+    public void clearHilights() {
+        System.out.println("CLEARED HIGHLIGHTS");
+        SwingUtilities.invokeLater(() -> getStyledDocument().setCharacterAttributes(0, getText().length(), defaultAttributes, true));
+    }
+
+    public void clearWarning() {
+        warnings.clear();
+        getHighlighter().removeAllHighlights();
+    }
+
     public void addHightlight(int start, int end, Color color) {
-        int delta = end - start;
+        System.out.println("Added Highlight: " + start + " " + end);
+        if (end < start) throw new IllegalArgumentException("End is smaller then start");
+        int delta = end - start + 1;
         SimpleAttributeSet set = new SimpleAttributeSet();
         StyleConstants.setForeground(set, color);
-        getStyledDocument().setParagraphAttributes(start, delta, set, false);
+        SwingUtilities.invokeLater(() -> getStyledDocument().setCharacterAttributes(start, delta, set, false));
     }
 
     public int getLineCount() {
