@@ -115,8 +115,8 @@ public class DomHtmlParser implements DomParser<Node, String, DomHtmlParser> {
         if(index+next.length() > content.length()) return false;
         for(int i = 0;i < next.length();i++)
             if (content.charAt(i + index) != next.charAt(i)) return false;
-        line += content.substring(index, index + next.length()).split("\r\n|\r|\n").length;
-        index += next.length();
+        line += content.substring(index, index + next.length() - 1).split("\r\n|\r|\n").length;
+        index += next.length() - 1;
         return true;
     }
 
@@ -125,8 +125,8 @@ public class DomHtmlParser implements DomParser<Node, String, DomHtmlParser> {
         if(index+text.length() > content.length()) return false;
         for(int i = 0;i < text.length();i++)
             if (Character.toLowerCase(content.charAt(i + index)) != text.charAt(i)) return false;
-        line += content.substring(index, index + text.length()).split("\r\n|\r|\n").length;
-        index += text.length();
+        line += content.substring(index, index + text.length() - 1).split("\r\n|\r|\n").length;
+        index += text.length()-1;
         return true;
     }
 

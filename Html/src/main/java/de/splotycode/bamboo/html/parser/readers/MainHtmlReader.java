@@ -42,7 +42,7 @@ public class MainHtmlReader implements DomReader<DomHtmlParser> {
                 break;
             case TAGNAME:
                 if(c == ' '){
-                    atributeNode = new TagNode(name.toLowerCase(), tagStart, parser.getIndex());
+                    atributeNode = new TagNode(name.toLowerCase(), tagStart, parser.getIndex() - 1);
                     atributeNode.setParent(parser.getCurrentParent());
                     name = "";
                     state = State.AFTER_TAGNAME;
@@ -50,7 +50,7 @@ public class MainHtmlReader implements DomReader<DomHtmlParser> {
                     if(!atributeNode.canSelfClose())
                         parser.setCurrentParent(atributeNode);
                 }else if(c == '>') {
-                    TagNode node = new TagNode(name.toLowerCase(), tagStart, parser.getIndex());
+                    TagNode node = new TagNode(name.toLowerCase(), tagStart, parser.getIndex() - 1);
                     node.setParent(parser.getCurrentParent());
                     parser.getCurrentParent().getChilds().add(node);
                     if(!node.canSelfClose())
@@ -67,7 +67,7 @@ public class MainHtmlReader implements DomReader<DomHtmlParser> {
             case AFTER_TAGNAME:
                 if (c == '>') {
                     state = State.TEXT;
-                    atributeNode.setLastEnd(parser.getIndex());
+                    atributeNode.setLastEnd(parser.getIndex() - 1);
                     if(!atributeNode.canSelfClose())
                         parser.setCurrentParent(atributeNode);
                     atributeNode = null;
@@ -85,7 +85,7 @@ public class MainHtmlReader implements DomReader<DomHtmlParser> {
                     state = State.AFTERQUALS;
                 }else if (c == '>'){
                     Attribute attribute = new Attribute(name.toLowerCase());
-                    attribute.setNameBounds(parser.getIndex() - name.length(), parser.getIndex());
+                    attribute.setNameBounds(parser.getIndex() - name.length(), parser.getIndex() - 1);
                     atributeNode.getAttributes().add(attribute);
                     state = State.TEXT;
                     atributeNode.setLastEnd(parser.getIndex());
@@ -140,7 +140,7 @@ public class MainHtmlReader implements DomReader<DomHtmlParser> {
                     } else {
                         attribute = new StandardAttribute(name, value);
                     }
-                    attribute.setNameBounds(attributeNameStart, attributeNameStart + name.length() + 1);
+                    attribute.setNameBounds(attributeNameStart, attributeNameStart + name.length() - 1);
                     attribute.setValueBounds(parser.getIndex() - value.length() - 1, parser.getIndex());
                     atributeNode.getAttributes().add(attribute);
                     name = value = "";
