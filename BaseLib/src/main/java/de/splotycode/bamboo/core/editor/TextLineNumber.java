@@ -85,7 +85,6 @@ public class TextLineNumber extends JComponent {
         Element root = component.getDocument().getDefaultRootElement();
         int index = root.getElementIndex(rowStartOffset);
         Element line = root.getElement(index);
-
         return line.getStartOffset() == rowStartOffset ? String.valueOf(index + 1) : "";
     }
 

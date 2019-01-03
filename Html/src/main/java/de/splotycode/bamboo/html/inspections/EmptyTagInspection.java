@@ -11,7 +11,7 @@ public class EmptyTagInspection extends Inspection {
     @Override
     public void inspect(Editor editor) {
         for (TagNode node : DomTreeUtil.getAllTagNodes(editor)) {
-            if (!node.canSelfClose() && node.getChilds().isEmpty()) {
+            if (!node.getName().equals("script") && !node.canSelfClose() && node.getChilds().isEmpty()) {
                 report(editor, "Empty Tag", node.getStart(), node.getAbsoluteEnd());
             }
         }
