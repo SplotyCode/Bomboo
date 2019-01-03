@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 
+@Deprecated
 public class LineNumberComponent extends JComponent {
 
     private Editor editor;

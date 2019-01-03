@@ -37,25 +37,27 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
 
     private String diskState;
 
-    private LineNumberComponent lineNumbers = new LineNumberComponent(this);
+    private TextLineNumber lineNumbers;
 
     private List<CodeWarning> warnings = new ArrayList<>();
     private JPopupMenu quickfixMenu = new JPopupMenu();
 
     private AttributeSet defaultAttributes = getParagraphAttributes();
 
+    public static final Color NORMAL_TEXT_COLOR = Color.decode("#B8C1BD");
+
     public Editor(File file, LanguageDescriptor descriptor, WorkSpace workSpace) {
         setText("Loading...");
         setEditable(false);
         setBackground(Color.decode("#333336"));
-        setCaretColor(Color.decode("#B8C1BD"));
-        setForeground(Color.decode("#B8C1BD"));
+        setCaretColor(NORMAL_TEXT_COLOR);
+        setForeground(NORMAL_TEXT_COLOR);
         setFont(new Font("Fira Code", getFont().getStyle(), 14));
         this.file = file;
         this.workSpace = workSpace;
         this.descriptor = descriptor;
+        lineNumbers = new TextLineNumber(this);
         scrollPane.setRowHeaderView(lineNumbers);
-        lineNumbers.setAlignment(LineNumberComponent.CENTER_ALIGNMENT);
         ToolTipManager.sharedInstance().registerComponent(this);
         addKeyListener(this);
         addMouseListener(this);
@@ -67,7 +69,7 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
             e.printStackTrace();
         }
         setText(diskState);
-        lineNumbers.adjustWidth();
+        lineNumbers.update();
         descriptor.prepairEditor(this, workSpace);
         updateDocument();
         setEditable(true);
@@ -111,7 +113,8 @@ public class Editor extends JTextPane implements Destroyable, DocumentListener, 
     }
 
     private void updateDocument() {
-        lineNumbers.adjustWidth();
+        lineNumbers.update();
+
         if (hasChanged() != lastChanged) {
             workSpace.triggerFileEditedChanged();
         }
