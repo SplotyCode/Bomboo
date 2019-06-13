@@ -4,6 +4,8 @@ import de.splotycode.bamboo.core.boot.BootLoader;
 import de.splotycode.bamboo.core.editor.Editor;
 import de.splotycode.bamboo.core.gui.ThemeHelper;
 import de.splotycode.bamboo.core.i18n.I18N;
+import de.splotycode.bamboo.core.keybind.KeyMap;
+import de.splotycode.bamboo.core.keybind.KeyMapManager;
 import de.splotycode.bamboo.core.project.SimpleProjectInformation;
 import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.util.Destroyable;
@@ -21,16 +23,18 @@ import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class Bamboo extends InitialisedOnce implements Destroyable {
 
     @Getter private static Bamboo instance = new Bamboo();
 
-    @Getter private List<WorkSpace> openProjects = new ArrayList<>();
-    @Getter private List<SimpleProjectInformation> allWorkSpaces = new ArrayList<>();
+    private List<WorkSpace> openProjects = new ArrayList<>();
+    private List<SimpleProjectInformation> allWorkSpaces = new ArrayList<>();
 
-    @Getter private File bambooFolder = new File(System.getProperty("user.home"), ".bamboo");
+    private File bambooFolder = new File(System.getProperty("user.home"), ".bamboo");
+    private File workspacesFile = new File(bambooFolder, "workspaces.yml");
 
-    @Getter private File workspacesFile = new File(bambooFolder, "workspaces.yml");
+    private KeyMapManager keyMapManager = new KeyMapManager();
 
     protected void init() {
         bambooFolder.mkdirs();
@@ -40,6 +44,8 @@ public class Bamboo extends InitialisedOnce implements Destroyable {
             e.printStackTrace();
         }
         loadWorkSpaces();
+
+        keyMapManager.init();
 
         /* TODO: Can not show Windows in Shut down Thread */
         //Runtime.getRuntime().addShutdownHook(new Thread(this::destroy, "Bamboo shutdown Thread"));
@@ -77,6 +83,10 @@ public class Bamboo extends InitialisedOnce implements Destroyable {
         for (WorkSpace workSpace : openProjects)
             list.addAll(workSpace.getEditors());
         return list;
+    }
+
+    public KeyMap currentKeyMap() {
+        return keyMapManager.current();
     }
 
     @Override

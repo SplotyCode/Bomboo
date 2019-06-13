@@ -22,16 +22,7 @@ public class WorkspaceMenuBar extends BambooMenuBar {
 
     public WorkspaceMenuBar(WorkSpace workSpace) {
         this.workSpace = workSpace;
-        YamlConfiguration configuration = new YamlConfiguration();
-        try {
-            InputStream is = WorkspaceMenuBar.class.getResourceAsStream("/menubar.yml");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            configuration.load(br);
-            br.close();
-            is.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        YamlConfiguration configuration = YamlConfiguration.loadResource("menubar.yml");
         for (String menuName : configuration.getKeys(false)) {
             BambooMenu menu = new BambooMenu(I18N.get("menubar." + menuName));
             for (String itemName : configuration.getStringList(menuName)) {

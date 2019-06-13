@@ -5,8 +5,8 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class YamlConfiguration extends FileConfiguration {
@@ -54,6 +54,29 @@ public class YamlConfiguration extends FileConfiguration {
                 section.set(key, value);
             }
         }
+    }
+
+    public static YamlConfiguration loadResource(String name) {
+        if (!name.startsWith("/")) {
+            name = "/" + name;
+        }
+        YamlConfiguration configuration = new YamlConfiguration();
+        InputStream is = YamlConfiguration.class.getResourceAsStream(name);
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        try {
+            configuration.load(br);
+            return configuration;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public static YamlConfiguration loadConfiguration(File file) {

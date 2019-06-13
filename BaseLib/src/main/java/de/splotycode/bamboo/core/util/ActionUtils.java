@@ -6,13 +6,18 @@ import de.splotycode.bamboo.core.actions.CommonAction;
 import de.splotycode.bamboo.core.actions.EventCause;
 import de.splotycode.bamboo.core.project.WorkSpace;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public final class ActionUtils {
 
+    public static BambooEvent convertEvent(AWTEvent event, String command, WorkSpace workSpace, EventCause cause) {
+        return new BambooEvent(event.getSource(), event.getID(), command, workSpace, cause);
+    }
+
     public static BambooEvent convertEvent(ActionEvent event, WorkSpace workSpace, EventCause cause) {
-        return new BambooEvent(event.getSource(), event.getID(), event.getActionCommand(), workSpace, cause);
+        return convertEvent(event, event.getActionCommand(), workSpace, cause);
     }
 
     public static ActionListener generateListener(String actionName, EventCause cause, WorkSpace workSpace) {

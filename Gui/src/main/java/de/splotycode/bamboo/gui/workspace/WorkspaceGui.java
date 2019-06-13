@@ -1,5 +1,6 @@
 package de.splotycode.bamboo.gui.workspace;
 
+import de.splotycode.bamboo.core.Bamboo;
 import de.splotycode.bamboo.core.actions.ActionManager;
 import de.splotycode.bamboo.core.actions.BambooEvent;
 import de.splotycode.bamboo.core.actions.CommonAction;
@@ -9,6 +10,8 @@ import de.splotycode.bamboo.core.project.WorkSpace;
 import de.splotycode.bamboo.core.project.WorkspaceWindow;
 
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -26,6 +29,12 @@ public class WorkspaceGui extends BambooWindow implements WorkspaceWindow {
         addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
                 ActionManager.getInstance().callAction(new BambooEvent(e.getSource(), e.getID(), null, workSpace, EventCause.WORKSPACE_CLOSE), CommonAction.EXIT);
+            }
+        });
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                Bamboo.getInstance().getCurrentKeyMap().onPress(workSpace, e);
             }
         });
         setRawTitle("Bamboo 1.0");
